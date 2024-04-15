@@ -854,6 +854,7 @@ fetch_exastro() {
     fi
     if [ "${DEP_PATTERN}" = "RHEL8" ] || [ "${DEP_PATTERN}" = "RHEL9" ]; then
         podman unshare chown ${EXASTRO_UID}:${EXASTRO_GID} "${PROJECT_DIR}/.volumes/storage/"
+        podman unshare chown ${EXASTRO_UID}:${EXASTRO_GID} "${PROJECT_DIR}/.volumes/exastro/log/"
         sudo chcon -R -h -t container_file_t "${PROJECT_DIR}"
     fi
 }
