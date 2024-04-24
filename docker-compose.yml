@@ -178,6 +178,7 @@ services:
     container_name: platform-auth
     hostname: platform-auth
     restart: always
+    user: ${UID:-1000}:${HOST_DOCKER_GID:-1000}
     environment:
       EXTERNAL_URL: ${EXASTRO_EXTERNAL_URL:-}
       EXTERNAL_URL_MNG: ${EXASTRO_MNG_EXTERNAL_URL:-}
@@ -310,6 +311,7 @@ services:
     container_name: platform-api
     hostname: platform-api
     restart: always
+    user: ${UID:-1000}:${HOST_DOCKER_GID:-1000}
     healthcheck:
       test: curl -f http://127.0.0.1:8000/internal-api/health-check/liveness
       interval: 3s
@@ -370,6 +372,7 @@ services:
     container_name: platform-job
     hostname: platform-job
     restart: always
+    user: ${UID:-1000}:${HOST_DOCKER_GID:-1000}
     environment:
       TZ: ${TZ:-Asia/Tokyo}
       DEFAULT_LANGUAGE: ${DEFAULT_LANGUAGE:-ja}
@@ -431,6 +434,7 @@ services:
     hostname: platform-migration-1
     restart: on-failure
     command: python3 /app/initialize_db_main.py
+    user: ${UID:-1000}:${HOST_DOCKER_GID:-1000}
     environment:
       TZ: ${TZ:-Asia/Tokyo}
       DEFAULT_LANGUAGE: ${DEFAULT_LANGUAGE:-ja}
@@ -492,6 +496,7 @@ services:
     hostname: platform-migration-2
     restart: on-failure
     command: python3 /app/migration_main.py
+    user: ${UID:-1000}:${HOST_DOCKER_GID:-1000}
     environment:
       TZ: ${TZ:-Asia/Tokyo}
       DEFAULT_LANGUAGE: ${DEFAULT_LANGUAGE:-ja}
