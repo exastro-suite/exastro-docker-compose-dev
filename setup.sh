@@ -23,6 +23,8 @@ EXASTRO_UID=$(id -u)
 EXASTRO_GID=1000
 ENCRYPT_KEY='Q2hhbmdlTWUxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ='
 SERVICE_TIMEOUT_SEC=1800
+GITLAB_PROTOCOL=http
+GITLAB_PORT=http
 GITLAB_ROOT_PASSWORD='Ch@ngeMeGL'
 GITLAB_ROOT_TOKEN='change-this-token'
 MONGO_INITDB_ROOT_PASSWORD=Ch@ngeMeDBAdm
@@ -852,20 +854,6 @@ fetch_exastro() {
     if [ ! -d ${PROJECT_DIR} ]; then
         git clone https://github.com/exastro-suite/exastro-docker-compose.git
     fi
-    if [ "${DEP_PATTERN}" = "RHEL8" ] || [ "${DEP_PATTERN}" = "RHEL9" ]; then
-        podman unshare chown ${EXASTRO_UID}:${EXASTRO_GID} "${PROJECT_DIR}/.volumes/storage/"
-        podman unshare chown ${EXASTRO_UID}:${EXASTRO_GID} "${PROJECT_DIR}/.volumes/exastro/"
-        sudo chcon -R -h -t container_file_t "${PROJECT_DIR}"
-    elif [ "${DEP_PATTERN}" = "AlmaLinux8" ]; then
-        chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/storage/"
-        chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/exastro/"
-    elif [ "${DEP_PATTERN}" = "Ubuntu20" ]; then
-        chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/storage/"
-        chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/exastro/"
-    elif [ "${DEP_PATTERN}" = "Ubuntu22" ]; then
-        chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/storage/"
-        chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/exastro/"
-    fi
 }
 
 ### Setup Exastro system
@@ -1300,9 +1288,14 @@ start_exastro() {
     if echo $confirm | grep -q -e "[yY]" -e "[yY][eE][sS]"; then
         echo "Please wait. This process might take more than 10 minutes.........."
         if [ "${DEP_PATTERN}" = "RHEL8" ] || [ "${DEP_PATTERN}" = "RHEL9" ]; then
+            podman unshare chown ${EXASTRO_UID}:${EXASTRO_GID} "${PROJECT_DIR}/.volumes/storage/"
+            podman unshare chown ${EXASTRO_UID}:${EXASTRO_GID} "${PROJECT_DIR}/.volumes/exastro/"
+            sudo chcon -R -h -t container_file_t "${PROJECT_DIR}"
             systemctl --user start exastro
             # pid1=$!
         else
+            chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/storage/"
+            chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/exastro/"
             cd ${PROJECT_DIR}
             sudo -u ${EXASTRO_UNAME} -E ${DOCKER_COMPOSE} -f ${COMPOSE_FILE} --env-file ${ENV_FILE} up -d --wait
             # pid1=$!
