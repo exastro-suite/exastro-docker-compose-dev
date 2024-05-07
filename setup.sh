@@ -675,7 +675,7 @@ check_resource() {
         if [ $(df -m "${HOME}"| awk 'NR==2 {print $4}') -lt ${REQUIRED_FREE_FOR_EXASTRO_DATA} ]; then
             printf "\r\033[4F\033[K$(date) [INFO]: Checking required resource.....................ng\n" | tee -a "${LOG_FILE}"
             printf "\r\033[4E\033[K" | tee -a "${LOG_FILE}"
-            error "Lack of free space! Required at least ${REQUIRED_FREE_FOR_EXASTRO_DATA} MBytes free space on current directory."
+            warn "Lack of free space! Required at least ${REQUIRED_FREE_FOR_EXASTRO_DATA} MBytes free space on current directory."
         fi
         sleep 1
         printf "\r\033[4F\033[K$(date) [INFO]: Checking required resource.....................ok\n" | tee -a "${LOG_FILE}"
@@ -687,7 +687,7 @@ check_resource() {
         if [ $(df -m ${HOME} | awk 'NR==2 {print $4}') -lt ${REQUIRED_FREE_FOR_CONTAINER_IMAGE} ]; then
             printf "\r\033[3F\033[K$(date) [INFO]: Checking required resource.....................ng\n" | tee -a "${LOG_FILE}"
             printf "\r\033[3E\033[K" | tee -a "${LOG_FILE}"
-            error "Lack of free space! Required at least ${REQUIRED_FREE_FOR_CONTAINER_IMAGE} MBytes free space on ${HOME} directory."
+            warn "Lack of free space! Required at least ${REQUIRED_FREE_FOR_CONTAINER_IMAGE} MBytes free space on ${HOME} directory."
         else
             sleep 1
             printf "\r\033[3F\033[K$(date) [INFO]: Checking required resource.....................ok\n" | tee -a "${LOG_FILE}"
@@ -776,6 +776,13 @@ installation_podman_on_rhel8() {
         fi
     fi
 
+    export XDG_RUNTIME_DIR="/run/user/${EXASTRO_UID}"
+    if grep -q "^export XDG_RUNTIME_DIR" ${HOME}/.bashrc; then
+        sed -i -e "s|^export XDG_RUNTIME_DIR.*|export XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}|" ${HOME}/.bashrc
+    else
+        echo "export XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}" >> ${HOME}/.bashrc
+    fi
+
     info "Start and enable Podman socket service"
     systemctl --user enable --now podman.socket
     systemctl --user status podman.socket --no-pager
@@ -788,14 +795,6 @@ installation_podman_on_rhel8() {
         echo "export DOCKER_HOST=${DOCKER_HOST}" >> ${HOME}/.bashrc
         echo "alias docker-compose='podman unshare docker-compose'" >> ${HOME}/.bashrc
     fi
-
-    XDG_RUNTIME_DIR="/run/user/${EXASTRO_UID}"
-    if grep -q "^export XDG_RUNTIME_DIR" ${HOME}/.bashrc; then
-        sed -i -e "s|^export XDG_RUNTIME_DIR.*|export XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}|" ${HOME}/.bashrc
-    else
-        echo "export XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}" >> ${HOME}/.bashrc
-    fi
-
 }
 
 ### Installation Docker on AlmaLinux
@@ -826,9 +825,9 @@ installation_docker_on_ubuntu() {
 
     info "Add Docker GPG key"
     if [ -z "${PROXY}" ]; then
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
     else
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg -x ${PROXY}
+        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg -x ${PROXY}
     fi
 
     info "Add Docker repository"
@@ -1003,6 +1002,21 @@ setup() {
         else
             HOST_DOCKER_GID=$(grep docker /etc/group|awk -F':' '{print $3}')
             HOST_DOCKER_SOCKET_PATH="/var/run/docker.sock"
+        fi
+
+        if [ "${DEP_PATTERN}" = "RHEL8" ] || [ "${DEP_PATTERN}" = "RHEL9" ]; then
+            podman unshare chown ${EXASTRO_UID}:${EXASTRO_GID} "${PROJECT_DIR}/.volumes/storage/"
+            podman unshare chown ${EXASTRO_UID}:${EXASTRO_GID} "${PROJECT_DIR}/.volumes/exastro/"
+            sudo chcon -R -h -t container_file_t "${PROJECT_DIR}"
+        elif [ "${DEP_PATTERN}" = "AlmaLinux8" ]; then
+            chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/storage/"
+            chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/exastro/"
+        elif [ "${DEP_PATTERN}" = "Ubuntu20" ]; then
+            chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/storage/"
+            chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/exastro/"
+        elif [ "${DEP_PATTERN}" = "Ubuntu22" ]; then
+            chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/storage/"
+            chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/exastro/"
         fi
 
         if "${is_use_oase}"; then
@@ -1288,14 +1302,9 @@ start_exastro() {
     if echo $confirm | grep -q -e "[yY]" -e "[yY][eE][sS]"; then
         echo "Please wait. This process might take more than 10 minutes.........."
         if [ "${DEP_PATTERN}" = "RHEL8" ] || [ "${DEP_PATTERN}" = "RHEL9" ]; then
-            podman unshare chown ${EXASTRO_UID}:${EXASTRO_GID} "${PROJECT_DIR}/.volumes/storage/"
-            podman unshare chown ${EXASTRO_UID}:${EXASTRO_GID} "${PROJECT_DIR}/.volumes/exastro/"
-            sudo chcon -R -h -t container_file_t "${PROJECT_DIR}"
             systemctl --user start exastro
             # pid1=$!
         else
-            chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/storage/"
-            chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/exastro/"
             cd ${PROJECT_DIR}
             sudo -u ${EXASTRO_UNAME} -E ${DOCKER_COMPOSE} -f ${COMPOSE_FILE} --env-file ${ENV_FILE} up -d --wait
             # pid1=$!
@@ -1503,7 +1512,12 @@ remove_service() {
         DOCKER_COMPOSE=$(command -v docker)" compose"
     fi
 
-    ${DOCKER_COMPOSE} --profile=all down
+    if [ "${DEP_PATTERN}" = "RHEL8" ] || [ "${DEP_PATTERN}" = "RHEL9" ]; then
+        ${DOCKER_COMPOSE} --profile=all down
+    else
+        sudo -u ${EXASTRO_UNAME} -E ${DOCKER_COMPOSE} -f ${COMPOSE_FILE} --env-file ${ENV_FILE} --profile=all down
+    fi
+
     if [ "${DEP_PATTERN}" = "RHEL8" ] || [ "${DEP_PATTERN}" = "RHEL9" ]; then
         systemctl --user disable --now exastro
         rm -f ${HOME}/.config/systemd/user/exastro.service
@@ -1550,7 +1564,12 @@ remove_exastro_data() {
         DOCKER_COMPOSE=$(command -v docker)" compose"
     fi
 
-    ${DOCKER_COMPOSE} --profile=all down -v --rmi all
+    if [ "${DEP_PATTERN}" = "RHEL8" ] || [ "${DEP_PATTERN}" = "RHEL9" ]; then
+        ${DOCKER_COMPOSE} --profile=all down -v --rmi all
+    else
+        sudo -u ${EXASTRO_UNAME} -E ${DOCKER_COMPOSE} -f ${COMPOSE_FILE} --env-file ${ENV_FILE} --profile=all down -v --rmi all
+    fi
+
     sudo rm -rf ${PROJECT_DIR}/.volumes/storage/*
     sudo rm -rf ${PROJECT_DIR}/.volumes/mariadb/data/*
     sudo rm -rf ${PROJECT_DIR}/.volumes/gitlab/config/*
