@@ -142,6 +142,12 @@ services:
       KEYCLOAK_ADMIN: ${SYSTEM_ADMIN:-admin}
       KEYCLOAK_ADMIN_PASSWORD: ${SYSTEM_ADMIN_PASSWORD}
       TZ: ${TZ:-Asia/Tokyo}
+      HTTP_PROXY: ${HTTP_PROXY}
+      http_proxy: ${HTTP_PROXY}
+      HTTPS_PROXY: ${HTTPS_PROXY}
+      https_proxy: ${HTTPS_PROXY}
+      NO_PROXY: localhost,127.0.0.1,${NO_PROXY}
+      no_proxy: localhost,127.0.0.1,${NO_PROXY}
       KC_DB: ${KEYCLOAK_DB_VENDOR:-mariadb}
       KC_DB_URL_HOST: ${KEYCLOAK_DB_HOST:-mariadb}
       KC_DB_URL_PORT: ${KEYCLOAK_DB_PORT:-3306}
