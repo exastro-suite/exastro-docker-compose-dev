@@ -1009,14 +1009,14 @@ setup() {
             podman unshare chown ${EXASTRO_UID}:${EXASTRO_GID} "${PROJECT_DIR}/.volumes/exastro/"
             sudo chcon -R -h -t container_file_t "${PROJECT_DIR}"
         elif [ "${DEP_PATTERN}" = "AlmaLinux8" ]; then
-            chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/storage/"
-            chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/exastro/"
+            sudo chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/storage/"
+            sudo chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/exastro/"
         elif [ "${DEP_PATTERN}" = "Ubuntu20" ]; then
-            chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/storage/"
-            chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/exastro/"
+            sudo chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/storage/"
+            sudo chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/exastro/"
         elif [ "${DEP_PATTERN}" = "Ubuntu22" ]; then
-            chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/storage/"
-            chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/exastro/"
+            sudo chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/storage/"
+            sudo chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/exastro/"
         fi
 
         if "${is_use_oase}"; then
