@@ -782,6 +782,7 @@ installation_podman_on_rhel8() {
     else
         echo "export XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR}" >> ${HOME}/.bashrc
     fi
+    sudo systemctl start user@${EXASTRO_UID}
 
     info "Start and enable Podman socket service"
     systemctl --user enable --now podman.socket
