@@ -1303,7 +1303,7 @@ start_exastro() {
     if echo $confirm | grep -q -e "[yY]" -e "[yY][eE][sS]"; then
         echo "Please wait. This process might take more than 10 minutes.........."
         if [ "${DEP_PATTERN}" = "RHEL8" ] || [ "${DEP_PATTERN}" = "RHEL9" ]; then
-            systemctl --user start exastro
+            systemctl --user restart exastro
             # pid1=$!
         else
             cd ${PROJECT_DIR}
