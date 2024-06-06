@@ -134,29 +134,29 @@ services:
         max-file: '${LOGGING_MAX_FILE:-10}'
 
   keycloak:
-    image: docker.io/exastro/keycloak:${PLATFORM_VERSION:-1.8.0}
+    image: docker.io/exastro/keycloak:${PLATFORM_VERSION:-1.8.1}
     container_name: keycloak
     hostname: keycloak
     restart: always
-    healthcheck:
-      test: curl -f http://127.0.0.1:8080/auth/health
-      interval: 3s
-      retries: 200
     environment:
       KEYCLOAK_ADMIN: ${SYSTEM_ADMIN:-admin}
       KEYCLOAK_ADMIN_PASSWORD: ${SYSTEM_ADMIN_PASSWORD}
       TZ: ${TZ:-Asia/Tokyo}
-      KC_PROXY: passthrough
-      KC_HTTP_RELATIVE_PATH: /auth
+      HTTP_PROXY: ${HTTP_PROXY}
+      http_proxy: ${HTTP_PROXY}
+      HTTPS_PROXY: ${HTTPS_PROXY}
+      https_proxy: ${HTTPS_PROXY}
+      NO_PROXY: localhost,127.0.0.1,${NO_PROXY}
+      no_proxy: localhost,127.0.0.1,${NO_PROXY}
       KC_DB: ${KEYCLOAK_DB_VENDOR:-mariadb}
       KC_DB_URL_HOST: ${KEYCLOAK_DB_HOST:-mariadb}
       KC_DB_URL_PORT: ${KEYCLOAK_DB_PORT:-3306}
       KC_DB_URL_DATABASE: ${KEYCLOAK_DB_DATABASE:-keycloak}
       KC_DB_USERNAME: ${KEYCLOAK_DB_USER:-keycloak}
       KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+      JAVA_OPTS_APPEND: ${KEYCLOAK_JAVA_OPTS_APPEND:--Xms256m -Xmx256m}
     command:
-      # 開発モードで起動
-      - start-dev --spi-theme-static-max-age=-1 --spi-theme-cache-themes=false --spi-theme-cache-templates=false
+      - start
     networks:
       - exastro
     depends_on:
@@ -174,10 +174,11 @@ services:
         max-file: '${LOGGING_MAX_FILE:-10}'
 
   platform-auth:
-    image: docker.io/exastro/exastro-platform-auth:${PLATFORM_VERSION:-1.8.0}
+    image: docker.io/exastro/exastro-platform-auth:${PLATFORM_VERSION:-1.8.1}
     container_name: platform-auth
     hostname: platform-auth
     restart: always
+    user: ${UID:-1000}:${HOST_DOCKER_GID:-1000}
     environment:
       EXTERNAL_URL: ${EXASTRO_EXTERNAL_URL:-}
       EXTERNAL_URL_MNG: ${EXASTRO_MNG_EXTERNAL_URL:-}
@@ -251,7 +252,7 @@ services:
         max-file: '${LOGGING_MAX_FILE:-10}'
 
   platform-web:
-    image: docker.io/exastro/exastro-platform-web:${PLATFORM_VERSION:-1.8.0}
+    image: docker.io/exastro/exastro-platform-web:${PLATFORM_VERSION:-1.8.1}
     container_name: platform-web
     hostname: platform-web
     restart: always
@@ -306,10 +307,11 @@ services:
         max-file: '${LOGGING_MAX_FILE:-10}'
 
   platform-api:
-    image: docker.io/exastro/exastro-platform-api:${PLATFORM_VERSION:-1.8.0}
+    image: docker.io/exastro/exastro-platform-api:${PLATFORM_VERSION:-1.8.1}
     container_name: platform-api
     hostname: platform-api
     restart: always
+    user: ${UID:-1000}:${HOST_DOCKER_GID:-1000}
     healthcheck:
       test: curl -f http://127.0.0.1:8000/internal-api/health-check/liveness
       interval: 3s
@@ -366,10 +368,11 @@ services:
         max-file: '${LOGGING_MAX_FILE:-10}'
 
   platform-job:
-    image: docker.io/exastro/exastro-platform-job:${PLATFORM_VERSION:-1.8.0}
+    image: docker.io/exastro/exastro-platform-job:${PLATFORM_VERSION:-1.8.1}
     container_name: platform-job
     hostname: platform-job
     restart: always
+    user: ${UID:-1000}:${HOST_DOCKER_GID:-1000}
     environment:
       TZ: ${TZ:-Asia/Tokyo}
       DEFAULT_LANGUAGE: ${DEFAULT_LANGUAGE:-ja}
@@ -426,11 +429,12 @@ services:
         max-file: '${LOGGING_MAX_FILE:-10}'
 
   platform-migration-1:
-    image: docker.io/exastro/exastro-platform-migration:${PLATFORM_VERSION:-1.8.0}
+    image: docker.io/exastro/exastro-platform-migration:${PLATFORM_VERSION:-1.8.1}
     container_name: platform-migration-1
     hostname: platform-migration-1
     restart: on-failure
     command: python3 /app/initialize_db_main.py
+    user: ${UID:-1000}:${HOST_DOCKER_GID:-1000}
     environment:
       TZ: ${TZ:-Asia/Tokyo}
       DEFAULT_LANGUAGE: ${DEFAULT_LANGUAGE:-ja}
@@ -487,11 +491,12 @@ services:
         max-file: '${LOGGING_MAX_FILE:-10}'
 
   platform-migration-2:
-    image: docker.io/exastro/exastro-platform-migration:${PLATFORM_VERSION:-1.8.0}
+    image: docker.io/exastro/exastro-platform-migration:${PLATFORM_VERSION:-1.8.1}
     container_name: platform-migration-2
     hostname: platform-migration-2
     restart: on-failure
     command: python3 /app/migration_main.py
+    user: ${UID:-1000}:${HOST_DOCKER_GID:-1000}
     environment:
       TZ: ${TZ:-Asia/Tokyo}
       DEFAULT_LANGUAGE: ${DEFAULT_LANGUAGE:-ja}
