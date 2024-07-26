@@ -239,7 +239,7 @@ http://gitlab.example.com:40080
 | AUDIT_LOG_PATH                          | 監査ログのファイル名（ファイルパス）                                        | 可                            | exastro-audit.log (デフォルト)                                                                          |
 | AUDIT_LOG_FILE_MAX_BYTE                 | 監査ログファイルの最大サイズ(Byte)を指定できます                            | 可                            | 100000000 (デフォルト)                                                                                  |
 | AUDIT_LOG_BACKUP_COUNT                  | 監査ログファイルのバックアップカウント数<br>監査ログファイルの最大サイズ(Byte)を超えた際、ファイル名に"."＋数値で指定された値の分、バックアップされます | 可 | 30 (デフォルト)　　                                     |
-| ITA_VERSION                             | Exastro IT Automation のバージョン                                          | 可                            | 2.3.0      |
+| ITA_VERSION                             | Exastro IT Automation のバージョン                                          | 可                            | 2.4.2      |
 | ITA_DB_VENDOR                           | Exastro IT Automation が利用するデータベースエンジン                        | 可 (外部のデータベース利用時) | **"mariadb"** (デフォルト): MariaDB を利用<br>**"mysql"**: MySQL を利用                                 |
 | ITA_DB_HOST                             | Exastro IT Automation が利用するデータベースのホスト名                      | 可 (外部のデータベース利用時) | mariadb                                                                                                 |
 | ITA_DB_PORT                             | Exastro IT Automation が利用するデータベースのポート番号                    | 可 (外部のデータベース利用時) | 3306                                                                                                    |
