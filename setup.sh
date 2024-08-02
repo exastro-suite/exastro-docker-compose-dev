@@ -36,6 +36,7 @@ is_use_gitlab_container=false
 is_set_exastro_external_url=false
 is_set_exastro_mng_external_url=false
 is_set_gitlab_external_url=false
+is_copy_ssl_certificates=false
 if [ -f ${ENV_FILE} ]; then
     . ${ENV_FILE}
 fi
@@ -281,7 +282,7 @@ _EOF_
         * )
             ;;
     esac
-        
+
 }
 
 ### Banner
@@ -336,9 +337,9 @@ loodddddxxxxxkkkkkkkkkkkkkkkkkkkkkkkkkxxxxkkkkkkkkkkkkkkkkkkkkkkkkkxkkkkkxxxkkxk
 oddddxxxxkkkkkkkkkkkkkkkkkkkkkkkkkxxxxxkkxxxkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkxxxkkxxxxkkkxxxxxxxxxkkkkkkkkkkkOOOOOOxxxxkkkxdoc;'''....'''',,;:ldxkkkkkkkxxxxxkkkkxxxxxxxxxxxkkkxkkkkxxxkkxxxxxxxxxkkkkxkxxkkkkxkkkkkkkkkkkkkkkkkkkkkOOOkOkkkkkkkOOOkkkkkkkkkkkkkkkkkkkOOOOOOOkkkkOOOOOOOOOOOOO
 ddxxxxkkkkkkkkkkkkkkkkkxkkxxkkkkkxxxkkkkkkkkkkkkkkkkkkkkkkOkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkxkkkkkkkxxxxxxxxxkkkkkkkkkkkxdlooooollc,..........,,,,,;;;;;;:codxxxxxxxxxxxxxxxxxxxkkxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxkkkkxkxxxkkkkkkkkkkkkkkkkkOkkkkkkkkkkkkkkkkkkkkkkkkkkkOOkkkkkOOkkkkkkkOOkkkkkkkOOkkO
 dddxxkkkkkkkkkkkxxkkkkkxxkxxxxxxxkkxxxxxkxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxkkkkOOkkO0000OkkkkOOO000K000KKKKKKKKKKKXK0Oxl::loddc:.....     ........'''....'',;clcccclccccclllllllooooooddddddxkkkOOOOOOOOOOOOOOOOOOOOOOOOkkkkkkkkkkkkkOOOkkxxdooooddxxxdddddddoddoooooooooooooooooooooooooodddddddxxxx
-....................................... ... .                      .. .....................''''..........''...'''.'''.',;:;;,'..'',''....            ......''','.....''..                                                                                                                                   
-                                                                               .......................................''.''''..'...'',' ... . ....       .......',,,'''','.                                                                                                                                 
-                                                                             ........................................'''''............,'''.........        ...........''''''.                                                    . ...                ..            .                                       
+....................................... ... .                      .. .....................''''..........''...'''.'''.',;:;;,'..'',''....            ......''','.....''..
+                                                                               .......................................''.''''..'...'',' ... . ....       .......',,,'''','.
+                                                                             ........................................'''''............,'''.........        ...........''''''.                                                    . ...                ..            .
                                                                           .........................................'''''................................     ...',,,,.......'..              .                    ..........................................................................................
                                                                          ........................................'''''........ ............ ..........'''...    ...'''''.... ....          ............... .................................................................................................
 .                                                                        ................................'.'..'...''........ ...........    ...,.....................'.......  .,.         .................................................................................................................
@@ -385,17 +386,17 @@ ccclllooolllllolooooooooooooooooooooollllloolllloooooooooooooolc:::;;;;;,,,,''..
                                     ..........                                .',,,,,,,,,,,,,,;;;,,,,,,,''.''''........''.'''''''''''oNNNNXNNNNW0c. ....,,.......  .o::dXX0:...''''',',,,,,;;;,,,'',,,,,,,,,,'',',;;::cc:::cccllloooooddddddxxxdxxxdxxxxxxxddxxxdddxxxxxxxxkkxxxxxxxkkxxxkxxxxxxxxkkkkkkkkkk
 ...                           .',,''.....                                    .,''''''''',',,,,,,,;,,,,'''.'''''.'..''...'.''''''''''',0NNNNNNXOxdl'.'..';;'';'...,.'cclcckKo...'','',',,,,,,;,,;,','',,,,,,,,'','';;;;:;.             ................'''''',,,,;;;;;:::::ccccclllllooddddddddxxxxxxkkkkkkkO
 ...                           .;,.......                                    .,,,''''''''''',,,,,,,;,,''''..''''''.''''''''''''''''''''dNNNNXkloddddc'.,,'''',''..',oooololox...'','''',,,,,,,;,;,,,,,,,,;,,,''',,.,;;;,,:,.                                                             .............''''',,
-...                           .;;',''..............                         ,,,,'''''''''','''''''''''.''.'''''''''''''''''''''''''''';XNXOddxkkkkkxdc....;;','.:,;kkOOOxxxd'..','',,','''',,,;;,','',,,,,,,'..',',,,,',;:c.                                                                                
-....                          .;;'''''...............    ..                .....''''''''''''.'''''''''''.''....''''''''''''''''''''''''o0kkO00KK0K00Okd;.....;c,.,ckkO0000OO;.'',,',,',,,,'''',;;,,''',,,,,,'..',',,'',;,;:.                                                                                
-....       ..  ...    .;;:;::;,;;,,,,'',,;:c:,,;;;;,,'....                .,.......''''''''''''''''''''''''.....''''''''''''''''''''''',0XKKKKKKXKKK00Okxc........l000K00000o.'','',,',,,,',,,,;;,'''',,,','''.'''''',;;,,.'                                                                                
-....       ......'... lKKKXXXKl;:,;;,coxkkxxl:;;'....                    .;,,''......''''''''..','''.''.''''''...'''''''''''''''''''''''lXKKXXXXXKXKKKK0OOo;..c:..:000KKKK00k..''',,,',,,,,,'',,;''''',,,'''''..''..',,,'.';,                                                                               
-....       ....'''''. lXXXXXNXd::''......','...         ...................,,,'''......'''''''.'''''.'.''''''.''...'''''''''''''''.''''',OKKKKXKKXKKXKKK0k,...,'...lKXXKKXKKK,.''',,,',,,,',,,,,,''''',,'''''...''.','...';;:.                                                                              
-....        ...'',,'. lXXXNNNXd::'......'''......',,;cloddddddddddoooollcc;..''''''........'''..'''''''''''''''''...'''''''''''''''''''''dXXXXKXXXXXXXKK0;....'',c''xKXXKKKKXc.',,,,,,,,,,'''',,,,'''',,'''''...''.'...',;;,;,                                                                 .......      
-....        ....''''. cXNNNNNXxc:'......:::codxkOO000OOOOOOOOOOOOkkkxxkkkd,'...','''.........''..''''''''''..'''''...'''''''''''''''''''''OKKKKXXKXKKKKKdo;..';o'',':KKKXXXKKl.',,,,,,,,,,'''',,,,'''',,'''''...''...'',,'',;:.                                                         ...,:::clol:'.      
-....        ......... cKkxxkXXkllccoxkO0KKK0OKXXKKXXKKKKKKXXK00xo:cod0K0O;,''...''''''''......''.''.''''''..''''''''..''''''''''''''''''''dKXKXKXXKXXXKO',..''',..,,.xKXKKKKXx.'','',,,,,','',,,,,,''','''''...''...,''.'',;;;,                                               ........':ldxkkkkxl:,...      
-....        .     ....cKc..'0X00XXXK00Okxxddo0XX00KKOxkkOO0K0OOxc,;olO00c,,'''....'''...'......'..'.'''.''''''',''','..''''''''''''''''''',KXXKKXXKXKXKc'..;,'....,;.:KKKXXKK0..''''',,,,',,',,,,',''','..'''''''......',,,,,,;.                                          ..........:x00Okkkxoc,,;,'..      
-....        .      ...:Kl..'0XOkOOkxxxxxxxxdlOXX0O0K0xxxkO0KK0Od:,,olKNd,,'''''......'...''''...'..''''.''''''''''''''..'''''''''''''''''''oKKKXXKXKKKO'c'..'..,:....'xKXKKKKK:.''''',',,','',,,,'''''''..'''.'''...''','''',;;,                                      ..............kKK0xldo:,,,;;;'..      
-....               ...:Kl..'0XOOOOOOOkkxxddol0XX0OKKOxxkkOOKK0Od:',ooK0;,''''''''.....'.....''.....''''.'''''''''''''''..''''''''''''''''''cXXKKKKKKXXd...'c.......,:.;KXXXXKKl''',,,'',',,,,,,,,'''''''..'...''...''...',,,,;;;.                               .'coollloooolllcc:,;kKK0koxx::c;,;,..       
+...                           .;;',''..............                         ,,,,'''''''''','''''''''''.''.'''''''''''''''''''''''''''';XNXOddxkkkkkxdc....;;','.:,;kkOOOxxxd'..','',,','''',,,;;,','',,,,,,,'..',',,,,',;:c.
+....                          .;;'''''...............    ..                .....''''''''''''.'''''''''''.''....''''''''''''''''''''''''o0kkO00KK0K00Okd;.....;c,.,ckkO0000OO;.'',,',,',,,,'''',;;,,''',,,,,,'..',',,'',;,;:.
+....       ..  ...    .;;:;::;,;;,,,,'',,;:c:,,;;;;,,'....                .,.......''''''''''''''''''''''''.....''''''''''''''''''''''',0XKKKKKKXKKK00Okxc........l000K00000o.'','',,',,,,',,,,;;,'''',,,','''.'''''',;;,,.'
+....       ......'... lKKKXXXKl;:,;;,coxkkxxl:;;'....                    .;,,''......''''''''..','''.''.''''''...'''''''''''''''''''''''lXKKXXXXXKXKKKK0OOo;..c:..:000KKKK00k..''',,,',,,,,,'',,;''''',,,'''''..''..',,,'.';,
+....       ....'''''. lXXXXXNXd::''......','...         ...................,,,'''......'''''''.'''''.'.''''''.''...'''''''''''''''.''''',OKKKKXKKXKKXKKK0k,...,'...lKXXKKXKKK,.''',,,',,,,',,,,,,''''',,'''''...''.','...';;:.
+....        ...'',,'. lXXXNNNXd::'......'''......',,;cloddddddddddoooollcc;..''''''........'''..'''''''''''''''''...'''''''''''''''''''''dXXXXKXXXXXXXKK0;....'',c''xKXXKKKKXc.',,,,,,,,,,'''',,,,'''',,'''''...''.'...',;;,;,                                                                 .......
+....        ....''''. cXNNNNNXxc:'......:::codxkOO000OOOOOOOOOOOOkkkxxkkkd,'...','''.........''..''''''''''..'''''...'''''''''''''''''''''OKKKKXXKXKKKKKdo;..';o'',':KKKXXXKKl.',,,,,,,,,,'''',,,,'''',,'''''...''...'',,'',;:.                                                         ...,:::clol:'.
+....        ......... cKkxxkXXkllccoxkO0KKK0OKXXKKXXKKKKKKXXK00xo:cod0K0O;,''...''''''''......''.''.''''''..''''''''..''''''''''''''''''''dKXKXKXXKXXXKO',..''',..,,.xKXKKKKXx.'','',,,,,','',,,,,,''','''''...''...,''.'',;;;,                                               ........':ldxkkkkxl:,...
+....        .     ....cKc..'0X00XXXK00Okxxddo0XX00KKOxkkOO0K0OOxc,;olO00c,,'''....'''...'......'..'.'''.''''''',''','..''''''''''''''''''',KXXKKXXKXKXKc'..;,'....,;.:KKKXXKK0..''''',,,,',,',,,,',''','..'''''''......',,,,,,;.                                          ..........:x00Okkkxoc,,;,'..
+....        .      ...:Kl..'0XOkOOkxxxxxxxxdlOXX0O0K0xxxkO0KK0Od:,,olKNd,,'''''......'...''''...'..''''.''''''''''''''..'''''''''''''''''''oKKKXXKXKKKO'c'..'..,:....'xKXKKKKK:.''''',',,','',,,,'''''''..'''.'''...''','''',;;,                                      ..............kKK0xldo:,,,;;;'..
+....               ...:Kl..'0XOOOOOOOkkxxddol0XX0OKKOxxkkOOKK0Od:',ooK0;,''''''''.....'.....''.....''''.'''''''''''''''..''''''''''''''''''cXXKKKKKKXXd...'c.......,:.;KXXXXKKl''',,,'',',,,,,,,,'''''''..'...''...''...',,,,;;;.                               .'coollloooolllcc:,;kKK0koxx::c;,;,..
 ....               ...:Ko...OXkxOOOkkkkxxxxol0NNKXXX00K00KKKKK0xc,,llKl''''''''''''........ .......'.''.''''''''..........''''''''''''''''''OXXKKXXKXKl',..'..,;'......lXXXKXNx.'''','',',,,,,','.''''''......'.......'',,,,,,;;:cllloodddddoollcc:::;,,,''....,xOOOOkkOOOOkkkOOkxdokKK0kokx:c;,,;,.'.......
 ....               ...;Ko...kXdoxxkOOOkkkxdlcOXX00KK0O0K0KKK0Okdolllcx'''''''''''''''........  ......''''''.''...'.........'''''''''''''''''lKKXKXKXKKc';..''.';..''..''0KK0KK0''''''','',,,,,','.''''''...........'.'''',,,,,;;:lOOOOOO0KKKKXXXXXXXXXXXXKK000OKNNNNNXXXXXKKKK0OxoookKXKOdOkc;;::loddddoc,'.
 ....               ...,Ko...xKdoooodkOOOOkxl:ONXKKXK00KKKKKKK00xoxxl,:''''''''''''''''''.......   ..'..''.'.'''''''....... .'''''''''''''''',0XKKKXKXX:...':'...'.''....dXKKK00;..''',,,,,',,,','..''''...........''..''',,',,;;;:O00OOOOkOOOXXNXXXXXXXXXK00KKKXNNNNNNNXXNNNNN0xxdddOKXKOk0kcldkkO00Oxdl:;,'
@@ -432,48 +433,48 @@ cccccccclllllllllccccccccccclllloooddddxxxkkkkOOO0000KKKKKKKKO'.'...''''''......
 .....         ':lx0KKXKKKK000OOkkkkk:                    ...''...',,,'',,,,,;;,;,,,',,,',''.  .                 ....................................lOdxO;.. ;Ol;xx0l   ..';dOc   :0'   ck;,:kl   lk;,;.  'kd;;:.    ....;dk0kkOOd,;kklldodxolocol:,ll:'';coxOkc..cl;cokOkdl:;...........',:clooddddddddoodd
 ...          ;0XNNXXXXXXKK00OOOkOkkko.                    .'..''''''''',,,,,,,,,,,,,',,,,'''.                     .. ..............................ck;,lkx.  ,x; .lx;   ,loooc.   ,c.   'c:::,.   .;,,,.   ..''..    ......':ooc,.............'''',,,,,,;:ldxkOx:,,;;lkOkxoc:;.........'',;:cclllooooooooooo
 ...          .ONNNNNXXXXKKKK000OOOOOx'                    .''''''''',,,,,,,,,,,,,,,;;;;,;,,,'.                  .....................................................                                               ..''''''';;;;;;;;;;,;;;:;;;;:;,,,,,,,;:lodxkOkkkkkxdol:,,'.       .......'''',,;;::ccccc
-...           cXNNNNNNNNXXXXKKKKKK00Oc                    .'....',,,,;;,;;;;;;;;;;;;;;;;;;,,,,.        .',;;,. ........................................................                                             .............................''''''''',;:cloooooolc:;,''....                            
-..            .OXNNNNNNNNNNNNKKKKKKOOx.                    ....''''''''',,,;;;;;;;;;;;;;;;;;;;,..,okOOO0KKKKK0o'.........................................................                                           ..........................................''.......        .                            
-.              :KKXXXNWWNNNNNKl:xKXKOO;                  . ............',,,,;;;;;;;;;;;;;;;:lodxOKKK00OO0KKXXXXXo..........................................................                                                                          .';cllooooolll:;'.       ..                            
+...           cXNNNNNNNNXXXXKKKKKK00Oc                    .'....',,,,;;,;;;;;;;;;;;;;;;;;;,,,,.        .',;;,. ........................................................                                             .............................''''''''',;:cloooooolc:;,''....
+..            .OXNNNNNNNNNNNNKKKKKKOOx.                    ....''''''''',,,;;;;;;;;;;;;;;;;;;;,..,okOOO0KKKKK0o'.........................................................                                           ..........................................''.......        .
+.              :KKXXXNWWNNNNNKl:xKXKOO;                  . ............',,,,;;;;;;;;;;;;;;;:lodxOKKK00OO0KKXXXXXo..........................................................                                                                          .';cllooooolll:;'.       ..
                .dO00OKNWWNNNNXxcdKXX0Ox.         ....................''',,,,,;;;;;;;;;;;;:d0KKKKKKKKKK0kxk0KXXXXXO, .........................................................                                                                     .;coollllllllllllllll:..    ;kkkkkkkkkkxkxxxxxxxxxxdddddoo
 .               ,k00OOXNWNNNNNKOO000KK0d    .........................'''',,,,;;,;coxkO0KK0KKKXKKK00KKKXXKkoxOKKKKKKl...........................................................                                                                .,clllllllllloolllllllllllc.   lKKKKKKKKKKKXXXKKKKKKKXXXXXXXX
                  dO00kOXNWNNNX0kkxldKK0Ol,,'''cd:''......'''.........''''',,,,lONWWWWWWWK00KKXXNX00KXXXXXNXOdd0KKKKXk..........................................................                                                               ,llllllllllllxKKkolllllllllll'..xKKKKKKKKKKKKKKKKKKKKKKXXXXKKK
-                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                                                                            
-                                               .,:ldxk0KKKKKOkxdl:'.                                                   OKKKKKKKKKKKKKKKKKKKKKKK                                                                                  cKKKKKK,                                                                   
-                                          .:d0WMMMMMMMMMMMMMMMMMMMMMNOo,                                               XMMMMMMMMMMMMMMMMMMMMMMM                                                                                  dMMMMMMc                                                                   
-                                       .oKMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMW0c.                                           XMMMMMMMMMMMMMMMMMMMMMMM   .kkkkkkkk        ,kkkkkkkk.   kkkkkkkkkkol;.             ':odkkkkkkkkkkk.   kkkNMMMMMMNkkkkk;   dkkkkkk.   .,cok           ':ookkkoo:,                    
-                                     lKMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM0:                                         XMMMMMMMO                    MMMMMMMW.     cMMMMMMMM     MMMMMMMMMMMMMM0c         dNMMMMMMMMMMMMMMM.   MMMMMMMMMMMMMMMMd   XMMMMMM. c0MMMMM       ,dKMMMMMMMMMMMMMKd,                
-                                  .xWMMMMMMMMMMo       .....       KMMMMMMMMMMNo                                       XMMMMMMMd                     NMMMMMMW:   xMMMMMMMK      MMMMMMMMMMMMMMMMNc     :WMMMMMMMMMMMMMMMMM.   MMMMMMMMMMMMMMMMd   XMMMMMMKNMMMMMMM     oNMMMMMMMMM.MMMMMMMMMNo              
-                                .OMMMMMMMMMW    .:ok0NWMMMMMNX0xl,.   .MMMMMMMMMWo                                     XMMMMMMMd                      WMMMMMMMd KMMMMMMMx                ,MMMMMMMMc   .MMMMMMMK                  OMMMMMMo         XMMMMMMMMMMMMMo    lWMMMMMMMMMM: :MMMMMMMMMMWl            
-                              .OMMMMMMMMMc   ;xNMMMMMMMMMMMMMMMMMMMKd,   OMMMMMMMMX.                                   XMMMMMMMd                       KMMMMMMMWMMMMMMMo                   .MMMMMMM   cMMMMMMk                   dMMMMMMc         XMMMMMMMMMO       kMMMMMMMMMMMK   KMMMMMMMMMMMO           
-                            ;0MMMMMMMMM.  ,xNMMMMMMMMMMMMMMMMMMMMMMMMMNo.  lMMMMMMMWo                                  XMMMMMMMWKKKKKKKKKKKK;           oMMMMMMMMMMMMM.           ,::::::::dMMMMMMM   .MMMMMMWd::::::,.          dMMMMMMc         XMMMMMMMM.       xMMMMMMMMMMMM     MMMMMMMMMMMMx          
-                          :KMMMMMMMMM.  :KMMMMMMMMMMMW.     :MMMMMMMMMMMMk   MMMMMMMMO    .',:cookk0K:                 XMMMMMMMMMMMMMMMMMMMMl            ;MMMMMMMMMMM          :0MMMMMMMMMMMMMMMMMM    ;MMMMMMMMMMMMMMMNx,       dMMMMMMc         XMMMMMMM,        MMMMN                     NMMMM          
-                        :KMMMMMMMMM.  :KMMMMMMMMMx               XMMMMMMMMW:  0MMMMMM;  .OMM   ,xl.   .dl              XMMMMMMMMMMMMMMMMMMMMl             .MMMMMMMMM          OMMMMMMMMMMMMMMMMMMMM      0MMMMMMMMMMMMMMMMK.     dMMMMMMc         XMMMMMMN        .MMMMMNd'               'dNMMMMM.         
-                      cXMMMMMMMMW   cXMMMMMMMMM                    'MMMMMMMMx  kMMM.  ;0MMMM;  .Xk   xWM.              XMMMMMMMk                          0MMMMMMMMMo        ;MMMMMMMMMMMMMMMMMMMMM          dMMMMMMMMMMMMMW'    dMMMMMMc         XMMMMMMo        .MMMMMMMMXd'         'dXMMMMMMMM.         
-                    lNMMMMMMMMW   lNMMMMMMMMM           .W           KMMMMMMMd  M.  :KMMMMMMk:kWMMNo;MMM               XMMMMMMMd                         XMMMMMMMMMMMk       lMMMMMMo       MMMMMMM                  ;MMMMMMW    dMMMMMMc         XMMMMMM,         WMMMMMMMMM,         ,MMMMMMMMMW          
-                  lNMMMMMMMMW   lNMMMMMMMMM             NMd           XMMMMMMM.   :KMMMMMMMMc  ,MM   WMk               XMMMMMMMd                       .NMMMMMMMMMMMMM0      lMMMMMMo       MMMMMMM                   MMMMMMM    dMMMMMMc         XMMMMMM.         .MMMMMMMMk     :     kMMMMMMMM.          
-                oNMMMMMMMMO   oNMMMMMMMM0              dMMM,           MMMMMN   cXMMMMMMMMW   .'Xk.  .M'               XMMMMMMMd                      ;WMMMMMMMoMMMMMMMX.    lMMMMMMo       MMMMMMM                 .OMMMMMMX    dMMMMMMc         XMMMMMM.           MMMMMMM  .c0WMW0c.  MMMMMMM            
-              dWMMMMMMMMO   dWMMMMMMMM0   ll      :MMMMMMMMMMMMM.      XMMN   lNMMMMMMMMW   :KMMMMMMWXM                XMMMMMMMWNNNNNNNNNNNNNNN      :MMMMMMMM  .MMMMMMMW'   .MMMMMMWNNNNNNNMMMMMMMWNN   ;NNNNNNNNNNMMMMMMMM     ,MMMMMMWNNNNNl   XMMMMMM.            xMMMMOc0MMMMMMMMM0:kMMMMk             
-            dWMMMMMMMMO   dWMMMMMMMM0   lNMl         kMMMMMMM:         XN   lNMMMMMMMMW   :KMMMMMMMMM                  XMMMMMMMMMMMMMMMMMMMMMMM     :MMMMMMMX    .MMMMMMMM:   lMMMMMMMMMMMMMMMMMMMMMMM   cMMMMMMMMMMMMMMMMx       dMMMMMMMMMMMd   XMMMMMM.              xMMMMMMMMMMMMMMMMMMMx               
-           cM. .0MMk.   dWMMMMMMMM0   lNMMMX         xMMMMMMM'            lNMMMMMMMMW   :KMMMMMMMMM                    XMMMMMMMMMMMMMMMMMMMMMMM    dMMMMMMM0       MMMMMMMMo    KMMMMMMMMMMMMMMMMMMMMM   cMMMMMMMMMMMMMM;           NMMMMMMMMMd   XMMMMMM.                 oMMMMMMMMMMMMMo                  
-           NM:  .0k   lWMMMMMMMMl   ,NMMMMMM'       .MMo   KMN          oNMMMMMMMMO   cXMMMMMMMMX                                                                                                                                                                                                           
-           MMW,dWMMNo'MMMMMMMMl   ,  MMMMMMMW'      O         O       dWMMMMMMMMO   lNMMMMMMMMX                                                                                                                                                                                                             
-          ,MMx  ,MM.  XMMMMMl   dWM. .MMMMMMMMo                     dWMMMMMMMMO   lNMMMMMMMMX                                                                                                                                                                                                               
-          0M.   'XO.  .MMM'  .xWMMMW.  MMMMMMMMNo.               ,xWMMMMMMMMc   oNMMMMMMMMo                                                                                                                                                                                                                 
-          .  :KMMMMMMXKX.    MMMMMMMW:  oMMMMMMMMMXdc'.     .,lkWMMMMMMMMMc  .dWMMMMMMMMo                              :ccc: .ccccccccccccc.           cccccc                                                                                                 '000:                                         
-                             .MMMMMMMMk   OMMMMMMMMMMMMMNNNMMMMMMMMMMMMMc  .dWMMMMMMMMo                                XMMMW cMMMMMMMMMMMMMl          .MMMMMMO                       .,cd                                                            .,cd     oMMM0                                         
-                               KMMMMMMMWo.   WMMMMMMMMMMMMMMMMMMMMMMM0   'xWMMMMMMMM,                                  XMMMW      XMMMX               NMMKOMMM.                     cMMMM                                                           lMMMM                                                   
-                                ,MMMMMMMMMO:    cMMMMMMMMMMMMMMMMM.    cKMMMMMMMMM,                                    XMMMW      XMMMX              .MMM'.MMMN     0000,   c0000 .0WMMMMK00.   :x0XNK0d,    ;000',d0NX0l .d0NX0o    .lk0KNNKOo.  .0WMMMMK00  x000O    .lk0NNKOl.    O000.ckKNKOc           
-                                  oMMMMMMMMMWkc.                   'l0WMMMMMMMMM,                                      XMMMW      XMMMX              KMMM  NMMM.    MMMMc   dMMMM .ONMMMMKOO. :NMMMl NMMMK.  cMMMMMMMMMMMNMMMMMMMN    NX   :MMMMc .ONMMMM0OO  KMMMW   kMMMM..MMMMk   XMMMMMMMMMMMK          
-                                    .MMMMMMMMMMMN0xo:;,'...,,;cokKWMMMMMMMMMMW                                         XMMMW      XMMMX             .MMM:  ,MMMN    MMMMc   dMMMM   cMMMM    'MMMM.   dMMMW  cMMMM   'MMMM,  .MMMM;      .,:NMMMM   lMMMM     KMMMW  OMMMX    WMMMk  XMMMW   ,MMMM.         
-                                       oMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM;                                           XMMMW      XMMMX             NMMM0oo0MMMM'   MMMMc   dMMMM   cMMMM    kMMMM    'MMMM. cMMMM   .MMMM.   MMMMc  .dXMMMMMMMMM   lMMMM     KMMMW  MMMMo    OMMMM  XMMMX   .MMMM.         
-                                          .MMMMMMMMMMMMMMMMMMMMMMMMMMMMW                                               XMMMW      XMMMX            'MMMMMMMMMMMMN   MMMMl   dMMMM   cMMMM    oMMMM    :MMMM  cMMMM   .MMMM.   MMMMc .WMMM   'MMMM   lMMMM     KMMMW  WMMMK    WMMMX  XMMMX   .MMMM.         
-                                               cMMMMMMMMMMMMMMMMMMM'                                                   XMMMW      XMMMX            NMMM'    .MMMM;  WMMMW,.:WMMMM   .MMMMx..  MMMMk  'WMMMo  cMMMM   .MMMM.   MMMMc :MMMM.  OMMMM   ;MMMMd..  KMMMW  'MMMMc  lMMMM.  XMMMX   .MMMM.         
-                                                                                                                       XMMMW      XMMMX           :MMMK      kMMMW   WMMMMMM:MMMM    cMMMMMM   'MMMWNMMMK    cMMMM   .MMMM.   MMMMc  lMMMWXW0MMMM    oMMMMMM  KMMMW    dMMMNNMMMc    XMMMX   .MMMM.         
-                                                                                                                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                                                                            
+
+
+
+                                               .,:ldxk0KKKKKOkxdl:'.                                                   OKKKKKKKKKKKKKKKKKKKKKKK                                                                                  cKKKKKK,
+                                          .:d0WMMMMMMMMMMMMMMMMMMMMMNOo,                                               XMMMMMMMMMMMMMMMMMMMMMMM                                                                                  dMMMMMMc
+                                       .oKMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMW0c.                                           XMMMMMMMMMMMMMMMMMMMMMMM   .kkkkkkkk        ,kkkkkkkk.   kkkkkkkkkkol;.             ':odkkkkkkkkkkk.   kkkNMMMMMMNkkkkk;   dkkkkkk.   .,cok           ':ookkkoo:,
+                                     lKMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM0:                                         XMMMMMMMO                    MMMMMMMW.     cMMMMMMMM     MMMMMMMMMMMMMM0c         dNMMMMMMMMMMMMMMM.   MMMMMMMMMMMMMMMMd   XMMMMMM. c0MMMMM       ,dKMMMMMMMMMMMMMKd,
+                                  .xWMMMMMMMMMMo       .....       KMMMMMMMMMMNo                                       XMMMMMMMd                     NMMMMMMW:   xMMMMMMMK      MMMMMMMMMMMMMMMMNc     :WMMMMMMMMMMMMMMMMM.   MMMMMMMMMMMMMMMMd   XMMMMMMKNMMMMMMM     oNMMMMMMMMM.MMMMMMMMMNo
+                                .OMMMMMMMMMW    .:ok0NWMMMMMNX0xl,.   .MMMMMMMMMWo                                     XMMMMMMMd                      WMMMMMMMd KMMMMMMMx                ,MMMMMMMMc   .MMMMMMMK                  OMMMMMMo         XMMMMMMMMMMMMMo    lWMMMMMMMMMM: :MMMMMMMMMMWl
+                              .OMMMMMMMMMc   ;xNMMMMMMMMMMMMMMMMMMMKd,   OMMMMMMMMX.                                   XMMMMMMMd                       KMMMMMMMWMMMMMMMo                   .MMMMMMM   cMMMMMMk                   dMMMMMMc         XMMMMMMMMMO       kMMMMMMMMMMMK   KMMMMMMMMMMMO
+                            ;0MMMMMMMMM.  ,xNMMMMMMMMMMMMMMMMMMMMMMMMMNo.  lMMMMMMMWo                                  XMMMMMMMWKKKKKKKKKKKK;           oMMMMMMMMMMMMM.           ,::::::::dMMMMMMM   .MMMMMMWd::::::,.          dMMMMMMc         XMMMMMMMM.       xMMMMMMMMMMMM     MMMMMMMMMMMMx
+                          :KMMMMMMMMM.  :KMMMMMMMMMMMW.     :MMMMMMMMMMMMk   MMMMMMMMO    .',:cookk0K:                 XMMMMMMMMMMMMMMMMMMMMl            ;MMMMMMMMMMM          :0MMMMMMMMMMMMMMMMMM    ;MMMMMMMMMMMMMMMNx,       dMMMMMMc         XMMMMMMM,        MMMMN                     NMMMM
+                        :KMMMMMMMMM.  :KMMMMMMMMMx               XMMMMMMMMW:  0MMMMMM;  .OMM   ,xl.   .dl              XMMMMMMMMMMMMMMMMMMMMl             .MMMMMMMMM          OMMMMMMMMMMMMMMMMMMMM      0MMMMMMMMMMMMMMMMK.     dMMMMMMc         XMMMMMMN        .MMMMMNd'               'dNMMMMM.
+                      cXMMMMMMMMW   cXMMMMMMMMM                    'MMMMMMMMx  kMMM.  ;0MMMM;  .Xk   xWM.              XMMMMMMMk                          0MMMMMMMMMo        ;MMMMMMMMMMMMMMMMMMMMM          dMMMMMMMMMMMMMW'    dMMMMMMc         XMMMMMMo        .MMMMMMMMXd'         'dXMMMMMMMM.
+                    lNMMMMMMMMW   lNMMMMMMMMM           .W           KMMMMMMMd  M.  :KMMMMMMk:kWMMNo;MMM               XMMMMMMMd                         XMMMMMMMMMMMk       lMMMMMMo       MMMMMMM                  ;MMMMMMW    dMMMMMMc         XMMMMMM,         WMMMMMMMMM,         ,MMMMMMMMMW
+                  lNMMMMMMMMW   lNMMMMMMMMM             NMd           XMMMMMMM.   :KMMMMMMMMc  ,MM   WMk               XMMMMMMMd                       .NMMMMMMMMMMMMM0      lMMMMMMo       MMMMMMM                   MMMMMMM    dMMMMMMc         XMMMMMM.         .MMMMMMMMk     :     kMMMMMMMM.
+                oNMMMMMMMMO   oNMMMMMMMM0              dMMM,           MMMMMN   cXMMMMMMMMW   .'Xk.  .M'               XMMMMMMMd                      ;WMMMMMMMoMMMMMMMX.    lMMMMMMo       MMMMMMM                 .OMMMMMMX    dMMMMMMc         XMMMMMM.           MMMMMMM  .c0WMW0c.  MMMMMMM
+              dWMMMMMMMMO   dWMMMMMMMM0   ll      :MMMMMMMMMMMMM.      XMMN   lNMMMMMMMMW   :KMMMMMMWXM                XMMMMMMMWNNNNNNNNNNNNNNN      :MMMMMMMM  .MMMMMMMW'   .MMMMMMWNNNNNNNMMMMMMMWNN   ;NNNNNNNNNNMMMMMMMM     ,MMMMMMWNNNNNl   XMMMMMM.            xMMMMOc0MMMMMMMMM0:kMMMMk
+            dWMMMMMMMMO   dWMMMMMMMM0   lNMl         kMMMMMMM:         XN   lNMMMMMMMMW   :KMMMMMMMMM                  XMMMMMMMMMMMMMMMMMMMMMMM     :MMMMMMMX    .MMMMMMMM:   lMMMMMMMMMMMMMMMMMMMMMMM   cMMMMMMMMMMMMMMMMx       dMMMMMMMMMMMd   XMMMMMM.              xMMMMMMMMMMMMMMMMMMMx
+           cM. .0MMk.   dWMMMMMMMM0   lNMMMX         xMMMMMMM'            lNMMMMMMMMW   :KMMMMMMMMM                    XMMMMMMMMMMMMMMMMMMMMMMM    dMMMMMMM0       MMMMMMMMo    KMMMMMMMMMMMMMMMMMMMMM   cMMMMMMMMMMMMMM;           NMMMMMMMMMd   XMMMMMM.                 oMMMMMMMMMMMMMo
+           NM:  .0k   lWMMMMMMMMl   ,NMMMMMM'       .MMo   KMN          oNMMMMMMMMO   cXMMMMMMMMX
+           MMW,dWMMNo'MMMMMMMMl   ,  MMMMMMMW'      O         O       dWMMMMMMMMO   lNMMMMMMMMX
+          ,MMx  ,MM.  XMMMMMl   dWM. .MMMMMMMMo                     dWMMMMMMMMO   lNMMMMMMMMX
+          0M.   'XO.  .MMM'  .xWMMMW.  MMMMMMMMNo.               ,xWMMMMMMMMc   oNMMMMMMMMo
+          .  :KMMMMMMXKX.    MMMMMMMW:  oMMMMMMMMMXdc'.     .,lkWMMMMMMMMMc  .dWMMMMMMMMo                              :ccc: .ccccccccccccc.           cccccc                                                                                                 '000:
+                             .MMMMMMMMk   OMMMMMMMMMMMMMNNNMMMMMMMMMMMMMc  .dWMMMMMMMMo                                XMMMW cMMMMMMMMMMMMMl          .MMMMMMO                       .,cd                                                            .,cd     oMMM0
+                               KMMMMMMMWo.   WMMMMMMMMMMMMMMMMMMMMMMM0   'xWMMMMMMMM,                                  XMMMW      XMMMX               NMMKOMMM.                     cMMMM                                                           lMMMM
+                                ,MMMMMMMMMO:    cMMMMMMMMMMMMMMMMM.    cKMMMMMMMMM,                                    XMMMW      XMMMX              .MMM'.MMMN     0000,   c0000 .0WMMMMK00.   :x0XNK0d,    ;000',d0NX0l .d0NX0o    .lk0KNNKOo.  .0WMMMMK00  x000O    .lk0NNKOl.    O000.ckKNKOc
+                                  oMMMMMMMMMWkc.                   'l0WMMMMMMMMM,                                      XMMMW      XMMMX              KMMM  NMMM.    MMMMc   dMMMM .ONMMMMKOO. :NMMMl NMMMK.  cMMMMMMMMMMMNMMMMMMMN    NX   :MMMMc .ONMMMM0OO  KMMMW   kMMMM..MMMMk   XMMMMMMMMMMMK
+                                    .MMMMMMMMMMMN0xo:;,'...,,;cokKWMMMMMMMMMMW                                         XMMMW      XMMMX             .MMM:  ,MMMN    MMMMc   dMMMM   cMMMM    'MMMM.   dMMMW  cMMMM   'MMMM,  .MMMM;      .,:NMMMM   lMMMM     KMMMW  OMMMX    WMMMk  XMMMW   ,MMMM.
+                                       oMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM;                                           XMMMW      XMMMX             NMMM0oo0MMMM'   MMMMc   dMMMM   cMMMM    kMMMM    'MMMM. cMMMM   .MMMM.   MMMMc  .dXMMMMMMMMM   lMMMM     KMMMW  MMMMo    OMMMM  XMMMX   .MMMM.
+                                          .MMMMMMMMMMMMMMMMMMMMMMMMMMMMW                                               XMMMW      XMMMX            'MMMMMMMMMMMMN   MMMMl   dMMMM   cMMMM    oMMMM    :MMMM  cMMMM   .MMMM.   MMMMc .WMMM   'MMMM   lMMMM     KMMMW  WMMMK    WMMMX  XMMMX   .MMMM.
+                                               cMMMMMMMMMMMMMMMMMMM'                                                   XMMMW      XMMMX            NMMM'    .MMMM;  WMMMW,.:WMMMM   .MMMMx..  MMMMk  'WMMMo  cMMMM   .MMMM.   MMMMc :MMMM.  OMMMM   ;MMMMd..  KMMMW  'MMMMc  lMMMM.  XMMMX   .MMMM.
+                                                                                                                       XMMMW      XMMMX           :MMMK      kMMMW   WMMMMMM:MMMM    cMMMMMM   'MMMWNMMMK    cMMMM   .MMMM.   MMMMc  lMMMWXW0MMMM    oMMMMMM  KMMMW    dMMMNNMMMc    XMMMX   .MMMM.
+
+
  .....            cO00OkKNWWNNXKxdl:dKX0Ol.....',';;,,''',,,,,.'.....'''',,,,,dWWWWWWWWWXOO0KKXXNNN00XXXXXXNXkoxO0KXXXx....................''.........................................                                                        ,oollollllloodKXXKdoolllllllooc..OKKXXXXXKKKKXXXKKKKKKKKKKKXXXX
 _EOF_
 
@@ -483,24 +484,24 @@ _EOF_
         cat <<'_EOF_'
 ===============================================================================================
 
-                                                                                               
-   NMMMMMMMMMMMd                                           MMMk                                
-   0XXXXXXXXXXXo                                           XXXd                                
-   0XXXo          xXXXN  cXXXX'  XXXXXXXN0   ,NXXXXXXXX. KXXXXXXX0 'XXXdWNXX.  kNNXXXXXNNW     
-   0XXXo           lXXXNkXXXX.        OXXXX .XXXX.         XXXd    'XXXXXXX. :NXXXXX.kXXXXXO   
-   0XXXXWWWWWW,     ,XXXXXXX      MWWWWXXXX..XXXXWWWM      XXXd    'XXXX:   ;XXXXXX;  XXXXXXk  
-   0XXXXXXXXXX,      .XXXXO     XXXXXXXXXXX.  OXXXXXXXNO   XXXd    'XXXk    xXXXl       .NXXX  
-   0XXXo             NXXXXXk   ,XXXc   xXXX.        ;XXXx  XXXd    'XXXl    cXXXXN     kXXXXO  
-   0XXXo           'NXXXXXXX0  ,XXXc   xXXX.        cXXXd  XXXd    'XXXc     kXXX; KNW..XXXX.  
-   0XXXXNNNNNNNo  cXXXX' dXXXN  KXXXNNNXXXXXl dNNNNNXXXx   kXXXNNK 'XXXc      .XXNXXXXXNXXc    
-   0XXXXXXXXXXXo xXXXX.   cXXXN.  XXXXXXk;XXl dXXXXXX        OXXX0 'XXXc          dXXXK        
-                                                                                               
-                                                                                               
-   0XddXXXXXX0     ;XXXd           xWK                              .WW,  kX,                  
-   0Xd  .XX;       KX,XX. ;WW  NWodXXXWl 0WNWW. dWkWNWkXWNW  NWNNWc NXXNW NNl .WWNWO  NWOWNW:  
-   0Xd  .XX;      cXk xXd ;XX  KXl oXO  0Xd ,XX.lXX 'XX. KXl   ;XXX..XX,  XXl,XX. xXO 0Xo lXX  
-   0Xd  .XX;      XXXNXXX.;XX  KXl dXO  KXl .XX'lXK .XX. 0Xl:NX .XX'.XX,  XXl;XX  dX0 0Xl cXX  
-   0Xd  .XX;     dX0   0Xd KXNNXXo 'XXN; XXWNX: lXK .XX. 0Xl.XXWNXX' OXXX XXl cXNWXX  0Xl cXX  
+
+   NMMMMMMMMMMMd                                           MMMk
+   0XXXXXXXXXXXo                                           XXXd
+   0XXXo          xXXXN  cXXXX'  XXXXXXXN0   ,NXXXXXXXX. KXXXXXXX0 'XXXdWNXX.  kNNXXXXXNNW
+   0XXXo           lXXXNkXXXX.        OXXXX .XXXX.         XXXd    'XXXXXXX. :NXXXXX.kXXXXXO
+   0XXXXWWWWWW,     ,XXXXXXX      MWWWWXXXX..XXXXWWWM      XXXd    'XXXX:   ;XXXXXX;  XXXXXXk
+   0XXXXXXXXXX,      .XXXXO     XXXXXXXXXXX.  OXXXXXXXNO   XXXd    'XXXk    xXXXl       .NXXX
+   0XXXo             NXXXXXk   ,XXXc   xXXX.        ;XXXx  XXXd    'XXXl    cXXXXN     kXXXXO
+   0XXXo           'NXXXXXXX0  ,XXXc   xXXX.        cXXXd  XXXd    'XXXc     kXXX; KNW..XXXX.
+   0XXXXNNNNNNNo  cXXXX' dXXXN  KXXXNNNXXXXXl dNNNNNXXXx   kXXXNNK 'XXXc      .XXNXXXXXNXXc
+   0XXXXXXXXXXXo xXXXX.   cXXXN.  XXXXXXk;XXl dXXXXXX        OXXX0 'XXXc          dXXXK
+
+
+   0XddXXXXXX0     ;XXXd           xWK                              .WW,  kX,
+   0Xd  .XX;       KX,XX. ;WW  NWodXXXWl 0WNWW. dWkWNWkXWNW  NWNNWc NXXNW NNl .WWNWO  NWOWNW:
+   0Xd  .XX;      cXk xXd ;XX  KXl oXO  0Xd ,XX.lXX 'XX. KXl   ;XXX..XX,  XXl,XX. xXO 0Xo lXX
+   0Xd  .XX;      XXXNXXX.;XX  KXl dXO  KXl .XX'lXK .XX. 0Xl:NX .XX'.XX,  XXl;XX  dX0 0Xl cXX
+   0Xd  .XX;     dX0   0Xd KXNNXXo 'XXN; XXWNX: lXK .XX. 0Xl.XXWNXX' OXXX XXl cXNWXX  0Xl cXX
 
 
 ===============================================================================================
@@ -606,7 +607,7 @@ check_security() {
         FIREWALLD_STATUS="inactive"
     fi
 
-    UFW_STATUS=$(sudo ufw status 2>/dev/null || :) 
+    UFW_STATUS=$(sudo ufw status 2>/dev/null || :)
     if echo "${UFW_STATUS}" | grep -qi "status: active"; then
         printf "\r\033[3F\033[K$(date) [INFO]: Checking running security services.............check\n" | tee -a "${LOG_FILE}"
         printf "\r\033[3E\033[K" | tee -a "${LOG_FILE}"
@@ -670,7 +671,7 @@ check_resource() {
             warn "Lack of free space! Required at least ${REQUIRED_FREE_FOR_CONTAINER_IMAGE} MBytes free space on /var directory."
         fi
 
-        # Check free space of current directory 
+        # Check free space of current directory
         info "'${HOME}' free space (MiB):         $(df -m "${HOME}" | awk 'NR==2 {print $4}')"
         if [ $(df -m "${HOME}"| awk 'NR==2 {print $4}') -lt ${REQUIRED_FREE_FOR_EXASTRO_DATA} ]; then
             printf "\r\033[4F\033[K$(date) [INFO]: Checking required resource.....................ng\n" | tee -a "${LOG_FILE}"
@@ -959,7 +960,7 @@ setup() {
             if [ "${url}" = "" ]; then
                 echo "Exastro service URL is required."
                 echo ""
-                continue 
+                continue
             else
                 is_set_exastro_external_url=true
                 if ! $(echo "${url}" | grep -q "http://.*") && ! $(echo "${url}" | grep -q "https://.*") ; then
@@ -983,7 +984,7 @@ setup() {
             if [ "${url}" = "" ]; then
                 echo "Exastro management service URL is required."
                 echo ""
-                continue 
+                continue
             else
                 is_set_exastro_mng_external_url=true
                 if ! $(echo "${url}" | grep -q "http://.*") && ! $(echo "${url}" | grep -q "https://.*"); then
@@ -996,6 +997,46 @@ setup() {
             echo ""
             break
         done
+
+        while true; do
+            read -r -p "Do you want to put your own certificates for https access? (y/n) [n: Generate certificates]: " confirm
+            echo ""
+            if echo $confirm | grep -q -e "[nN]" -e "[nN][oO]"; then
+                is_copy_ssl_certificates=false
+            else
+                is_copy_ssl_certificates=true
+            fi
+
+            if "${is_copy_ssl_certificates}"; then
+                while true; do
+                    read -r -p "certificate file path: " certificatepath
+                    echo ""
+                    if [ ! -f ${certificatepath} ]; then
+                        echo "${certificatepath} does not be found."
+                    else
+                        cp -p "${certificatepath}" "${PROJECT_DIR}/.volumes/exastro/ssl/"
+                        CERTIFICATE_FILE=$(echo $(basename ${certificatepath}))
+                        break
+                    fi
+                done
+                while true; do
+                    read -r -p "private-key file path: " privatekeypath
+                    echo ""
+                    if [ ! -f ${privatekeypath} ]; then
+                        echo "${privatekeypath} does not be found."
+                    else
+                        cp -p "${privatekeypath}" "${PROJECT_DIR}/.volumes/exastro/ssl/"
+                        PRIVATE_KEY_FILE=$(echo $(basename ${privatekeypath}))
+                        break
+                    fi
+                done
+            else
+                generate_https
+            fi
+            echo ""
+            break
+        done
+
 
         if [ "${DEP_PATTERN}" = "RHEL8" ] || [ "${DEP_PATTERN}" = "RHEL9" ]; then
             HOST_DOCKER_GID=${EXASTRO_GID}
@@ -1144,7 +1185,7 @@ _EOF_
                 info "GitLab root password:             ********"
                 info "GitLab root token:                ********"
             fi
-            
+
             generate_env
             break
         fi
@@ -1154,7 +1195,7 @@ _EOF_
 ### Generate .env file
 generate_env() {
     if [ -f ${ENV_FILE} ]; then
-        mv -f ${ENV_FILE} ${ENV_FILE}.$(date +%Y%m%d-%H%M%S) 
+        mv -f ${ENV_FILE} ${ENV_FILE}.$(date +%Y%m%d-%H%M%S)
     fi
     if $(echo "${DEP_PATTERN}" | grep -q "RHEL.*"); then
         cp -f ${ENV_FILE}.podman.sample ${ENV_FILE}
@@ -1178,6 +1219,10 @@ generate_env() {
     if "${is_set_exastro_mng_external_url}"; then
         sed -i -e "/^# EXASTRO_MNG_EXTERNAL_URL=.*/a EXASTRO_MNG_EXTERNAL_URL=${EXASTRO_MNG_EXTERNAL_URL}" ${ENV_FILE}
     fi
+    if "${is_copy_ssl_certificates}"; then
+        sed -i -e "/^# CERTIFICATE_FILE=.*/a CERTIFICATE_FILE=${CERTIFICATE_FILE}" ${ENV_FILE}
+        sed -i -e "/^# PRIVATE_KEY_FILE=.*/a PRIVATE_KEY_FILE=${PRIVATE_KEY_FILE}" ${ENV_FILE}
+    fi
     if $(echo "${DEP_PATTERN}" | grep -q "RHEL.*"); then
         sed -i -e "s|^HOST_DOCKER_SOCKET_PATH=.*|HOST_DOCKER_SOCKET_PATH=${HOST_DOCKER_SOCKET_PATH}|" ${ENV_FILE}
     else
@@ -1196,9 +1241,46 @@ generate_env() {
         sed -i -e "s/^GITLAB_HOST=.*/GITLAB_HOST=${GITLAB_HOST}/" ${ENV_FILE}
         sed -i -e "/^# GITLAB_PORT=.*/a GITLAB_PORT=${GITLAB_PORT}" ${ENV_FILE}
     fi
-    if "${is_set_gitlab_external_url}"; then 
+    if "${is_set_gitlab_external_url}"; then
         sed -i -e "/^# GITLAB_EXTERNAL_URL=.*/a GITLAB_EXTERNAL_URL=${GITLAB_EXTERNAL_URL}" ${ENV_FILE}
     fi
+}
+
+### Generate ssl certificate for HTTPS support
+generate_https() {
+    # remove protocol
+    domain1=`echo "${EXASTRO_EXTERNAL_URL}" | sed -E 's/^.*(http|https):\/\/([^/]+).*/\2/g'`
+    domain2=`echo "${EXASTRO_MNG_EXTERNAL_URL}" | sed -E 's/^.*(http|https):\/\/([^/]+).*/\2/g'`
+
+    # remove port
+    domain1=${domain1%:*}
+    domain2=${domain2%:*}
+
+    if $(echo "${domain1}" | grep -q "¥d{1,3}¥.¥d{1,3}¥.¥d{1,3}¥.¥d{1,3}"); then
+        subjectAltName1="IP:${domain1}"
+    else
+        subjectAltName1="DNS:${domain1}"
+    fi
+
+    if $(echo "${domain2}" | grep -q "¥d{1,3}¥.¥d{1,3}¥.¥d{1,3}¥.¥d{1,3}"); then
+        subjectAltName2="IP:${domain2}"
+    else
+        subjectAltName2="DNS:${domain2}"
+    fi
+
+    if [ ${domain1} = ${domain2} ]; then
+        subjectAltName=${subjectAltName1}
+    else
+        subjectAltName="${subjectAltName1}, ${subjectAltName2}"
+    fi
+
+    # generate multi domain ssl certificate
+    openssl req -new -x509 -days 3650 -sha256 -newkey rsa:2048 \
+        -keyout ${PROJECT_DIR}/.volumes/exastro/ssl/exastro.key \
+        -out ${PROJECT_DIR}/.volumes/exastro/ssl/exastro.crt \
+        -subj "/C=JP/CN=${domain1}" \
+        -addext "subjectAltName = ${subjectAltName}" \
+        -nodes
 }
 
 ### Installation Exastro
@@ -1244,7 +1326,7 @@ _EOF_
 ### Installation job to Crontab
 installation_cronjob() {
     # Specify the input file name and output file name here
-    cd 
+    cd
     backup_file="${PROJECT_DIR}/backup/crontab."$(date +%Y%m%d-%H%M%S)
     output_file="${HOME}/.tmp.txt"
 
@@ -1506,7 +1588,7 @@ remove_cronjob() {
 remove_service() {
     info "Stopping and removing Exastro service..."
     cd ${PROJECT_DIR}
- 
+
     if [ "${DEP_PATTERN}" = "RHEL8" ] || [ "${DEP_PATTERN}" = "RHEL9" ]; then
         DOCKER_COMPOSE=$(command -v podman)" unshare docker-compose"
     else
