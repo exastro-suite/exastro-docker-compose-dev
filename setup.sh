@@ -36,6 +36,7 @@ is_use_gitlab_container=false
 is_set_exastro_external_url=false
 is_set_exastro_mng_external_url=false
 is_set_gitlab_external_url=false
+is_use_ssl=false
 is_copy_ssl_certificates=false
 if [ -f ${ENV_FILE} ]; then
     . ${ENV_FILE}
@@ -968,6 +969,11 @@ setup() {
                     echo ""
                     continue
                 fi
+                if $(echo "${url}" | grep -q "https://.*") ; then
+                    is_use_ssl=true
+                else
+                    is_use_ssl=false
+                fi
                 EXASTRO_EXTERNAL_URL=${url}
             fi
             echo ""
@@ -992,51 +998,64 @@ setup() {
                     echo ""
                     continue
                 fi
+                if ${is_use_ssl} && $(echo "${url}" | grep -q "http://.*"); then
+                    echo "Invalid URI scheme (Please input https)"
+                    echo ""
+                    continue
+                fi
+                if ! ${is_use_ssl} && $(echo "${url}" | grep -q "https://.*"); then
+                    echo "Invalid URI scheme (Please input http)"
+                    echo ""
+                    continue
+                fi
                 EXASTRO_MNG_EXTERNAL_URL="${url}"
             fi
             echo ""
             break
         done
 
-        while true; do
-            read -r -p "Do you want to put your own certificates for https access? (y/n) [n: Generate certificates]: " confirm
-            echo ""
-            if echo $confirm | grep -q -e "[nN]" -e "[nN][oO]"; then
-                is_copy_ssl_certificates=false
-            else
-                is_copy_ssl_certificates=true
-            fi
+        if ${is_use_ssl}; then
+            while true; do
+                read -r -p "Generate self-signed SSL certificate? (y/n) [default: y]: " confirm
+                echo ""
+                if echo $confirm | grep -q -e "[nN]" -e "[nN][oO]"; then
+                    is_copy_ssl_certificates=true
+                else
+                    is_copy_ssl_certificates=false
+                fi
 
-            if "${is_copy_ssl_certificates}"; then
-                while true; do
-                    read -r -p "certificate file path: " certificatepath
+                if "${is_copy_ssl_certificates}"; then
+                    echo "Input path to your SSL certificate file."
                     echo ""
-                    if [ ! -f ${certificatepath} ]; then
-                        echo "${certificatepath} does not be found."
-                    else
-                        cp -p "${certificatepath}" "${PROJECT_DIR}/.volumes/exastro/ssl/"
-                        CERTIFICATE_FILE=$(echo $(basename ${certificatepath}))
-                        break
-                    fi
-                done
-                while true; do
-                    read -r -p "private-key file path: " privatekeypath
-                    echo ""
-                    if [ ! -f ${privatekeypath} ]; then
-                        echo "${privatekeypath} does not be found."
-                    else
-                        cp -p "${privatekeypath}" "${PROJECT_DIR}/.volumes/exastro/ssl/"
-                        PRIVATE_KEY_FILE=$(echo $(basename ${privatekeypath}))
-                        break
-                    fi
-                done
-            else
-                generate_https
-            fi
-            echo ""
-            break
-        done
-
+                    while true; do
+                        read -r -p "certificate file path: " certificatepath
+                        echo ""
+                        if [ ! -f ${certificatepath} ]; then
+                            echo "${certificatepath} does not be found."
+                        else
+                            cp -p "${certificatepath}" "${PROJECT_DIR}/.volumes/exastro/ssl/"
+                            CERTIFICATE_FILE=$(echo $(basename ${certificatepath}))
+                            break
+                        fi
+                    done
+                    while true; do
+                        read -r -p "private-key file path: " privatekeypath
+                        echo ""
+                        if [ ! -f ${privatekeypath} ]; then
+                            echo "${privatekeypath} does not be found."
+                        else
+                            cp -p "${privatekeypath}" "${PROJECT_DIR}/.volumes/exastro/ssl/"
+                            PRIVATE_KEY_FILE=$(echo $(basename ${privatekeypath}))
+                            break
+                        fi
+                    done
+                else
+                    generate_https
+                fi
+                echo ""
+                break
+            done
+        fi
 
         if [ "${DEP_PATTERN}" = "RHEL8" ] || [ "${DEP_PATTERN}" = "RHEL9" ]; then
             HOST_DOCKER_GID=${EXASTRO_GID}
@@ -1218,6 +1237,9 @@ generate_env() {
     fi
     if "${is_set_exastro_mng_external_url}"; then
         sed -i -e "/^# EXASTRO_MNG_EXTERNAL_URL=.*/a EXASTRO_MNG_EXTERNAL_URL=${EXASTRO_MNG_EXTERNAL_URL}" ${ENV_FILE}
+    fi
+    if "${is_use_ssl}"; then
+        sed -i -e "/^# EXASTRO_HTTPS=.*/a EXASTRO_HTTPS=${is_use_ssl}" ${ENV_FILE}
     fi
     if "${is_copy_ssl_certificates}"; then
         sed -i -e "/^# CERTIFICATE_FILE=.*/a CERTIFICATE_FILE=${CERTIFICATE_FILE}" ${ENV_FILE}
