@@ -1,6 +1,6 @@
-# Exastro OASE Agent in Docker Compose  
+# Exastro Ansible Execution Agent in Docker Compose  
 ## 概要   
-Docker Compose を利用することで、Exastro OASE Agentを簡単に起動することが可能です。  
+Docker Compose を利用することで、Exastro Ansible Execution Agentを簡単に起動することが可能です。  
   - (based on [exastro-it-automation](https://github.com/exastro-suite/exastro-it-automation))  
 
 ## 前提条件
@@ -64,10 +64,10 @@ docker-compose.yml などの起動に必要なファイル群を取得します�
 git clone https://github.com/exastro-suite/exastro-docker-compose.git
 ```
 
-以降は、*exastro-docker-compose/ita_ag_oase* ディレクトリで作業をします。  
+以降は、*exastro-docker-compose/ita_ag_ansible_execution* ディレクトリで作業をします。  
 
 ```shell
-cd exastro-docker-compose/ita_ag_oase
+cd exastro-docker-compose/ita_ag_ansible_execution
 ```
 
 環境変数の設定ファイル（.env）を、サンプルから作成します。
@@ -108,23 +108,21 @@ docker-compose up -d  --wait
 
 | パラメータ                           | 説明                                                      | 変更                    | デフォルト値・選択可能な設定値              |
 | ----------------------------------- | --------------------------------------------------------- | ---------------------- | ----------------------------------------- |
-| NETWORK_ID                          | OASE エージェント で利用する Docker ネットワークのID         | 可                     | 20230101                       |
+| NETWORK_ID                          | Ansible エージェント で利用する Docker ネットワークのID         | 可                     | 20230101                       |
 | LOGGING_MAX_SIZE                    | コンテナ毎のログファイルの1ファイルあたりのファイルサイズ      | 可                     | 10m                            |
 | LOGGING_MAX_FILE                    | コンテナ毎のログファイルの世代数                             | 可                     | 10                             |
-| TZ                                  | OASE エージェント システムで使用するタイムゾーン              | 可                     | Asia/Tokyo                     |
-| DEFAULT_LANGUAGE                    | OASE エージェント システムで使用する規定の言語     　         | 可                     | ja                             |
-| LANGUAGE                            | OASE エージェント システムで使用する言語                     | 可                     | en                             |
-| ITA_VERSION                         | OASE エージェント のバージョン                              | 可                     | 2.4.2                                     |
-| UID                                 | OASE エージェント の実行ユーザ                              | 不要                   | **1000** (デフォルト): Docker 利用の場合<br>**0**: Podman 利用の場合     |
+| TZ                                  | Ansible エージェント システムで使用するタイムゾーン              | 可                     | Asia/Tokyo                     |
+| DEFAULT_LANGUAGE                    | Ansible エージェント システムで使用する規定の言語     　         | 可                     | ja                             |
+| LANGUAGE                            | Ansible エージェント システムで使用する言語                     | 可                     | en                             |
+| ITA_VERSION                         | Ansible エージェント のバージョン                              | 可                     | 2.5.0                                     |
+| UID                                 | Ansible エージェント の実行ユーザ                              | 不要                   | **1000** (デフォルト): Docker 利用の場合<br>**0**: Podman 利用の場合     |
 | HOST_DOCKER_GID                     | ホスト上の Docker のグループID                             | 不要                    | **999**: Docker 利用の場合<br>**0**: Podman 利用の場合           |
-| AGENT_NAME                          | 起動する OASEエージェントの名前                             | 可                     | ita-oase-agent-01                         |
-| EXASTRO_URL                         | Exastro IT Automation の Service URL                      | 可                     | http://localhost:30080                    |
-| EXASTRO_ORGANIZATION_ID             | Exastro IT Automation で作成した OrganizationID            | **必須**               | 無し                                      |
-| EXASTRO_WORKSPACE_ID                | Exastro IT Automation で作成した WorkspaceID               | **必須**               | 無し                                      |
-| EXASTRO_REFRESH_TOKEN                    | Exastro システム管理画面から取得したリフレッシュトークン                 | 可                     | Ch@ngeMe                                     |
-| EXASTRO_USERNAME                    | Exastro IT Automation で作成した ユーザー名                 | 可                     | admin                                     |
-| EXASTRO_PASSWORD                    | Exastro IT Automation で作成した パスワード                                | 可                     | Ch@ngeMe                                  |
-| EVENT_COLLECTION_SETTINGS_NAMES     | Exastro IT Automation のOASE管理 エージェント で作成した イベント収集設定名  | **必須**   | 無し※カンマ区切りで複数指定可能   |
-| ITERATION                           | OASE エージェント が設定を初期化するまでの、処理の繰り返し数   | 可                     | 10（下限値: 10）                               |
-| EXECUTE_INTERVAL                    | OASE エージェント のデータ収集処理の実行間隔                  | 可                    | 5（下限値: 3）                                  |
-| LOG_LEVEL                           | OASE エージェント のログレベル                              | 可                     | INFO                                           |
+| ANSIBLE_AGENT_NAME                  | 起動する Ansibleエージェントの名前                             | 可                     | agent-ansible-execution-01                         |
+| ANSIBLE_EXASTRO_URL                 | Exastro IT Automation の Service URL                      | 可                     | http://localhost:30080                    |
+| ANSIBLE_EXASTRO_ORGANIZATION_ID             | Exastro IT Automation で作成した OrganizationID            | **必須**               | 無し                                      |
+| ANSIBLE_EXASTRO_WORKSPACE_ID                | Exastro IT Automation で作成した WorkspaceID               | **必須**               | 無し                                      |
+| ANSIBLE_EXASTRO_REFRESH_TOKEN                    | Exastro システム管理画面から取得したリフレッシュトークン                 | **必須**                     | Ch@ngeMe                                     |
+| ANSIBLE_ITERATION                           | Ansible エージェント が設定を初期化するまでの、処理の繰り返し数   | 可                     | 10（下限値: 10）                               |
+| ANSIBLE_EXECUTE_INTERVAL                    | Ansible エージェント のデータ収集処理の実行間隔                  | 可                    | 3（下限値: 3）                                  |
+| ANSIBLE_LOG_LEVEL                           | Ansible エージェント のログレベル                              | 可                     | INFO                                           |
+| ANSIBLE_CHILD_PROCESS_RETRY_LIMIT                    | Exastro IT Automation で作成した パスワード                                | 可                     | 0                                  |

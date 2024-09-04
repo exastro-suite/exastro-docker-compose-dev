@@ -13,27 +13,25 @@
 #   limitations under the License.
 version: '3.7'
 services:
-  ita-ag-oase:
-    image: docker.io/exastro/exastro-it-automation-ag-oase:${ITA_VERSION:-2.4.2}
-    container_name: ${AGENT_NAME:-ita-oase-agent-01}
-    hostname: ${AGENT_NAME:-ita-oase-agent-01}
+  ita-ag-ansible-execution:
+    image: docker.io/exastro/exastro-it-automation-ag-ansible-execution:${ITA_VERSION:-2.5.0}
+    container_name: ${ANSIBLE_AGENT_NAME:-agent-ansible-execution-01}
+    hostname: ${ANSIBLE_AGENT_NAME:-agent-ansible-execution-01}
     restart: always
     user: ${UID:-1000}:${HOST_DOCKER_GID:-1000}
     environment:
       TZ: ${TZ:-Asia/Tokyo}
       DEFAULT_LANGUAGE: ${DEFAULT_LANGUAGE:-ja}
       LANGUAGE: ${LANGUAGE:-en}
-      AGENT_NAME: ${AGENT_NAME:-ita-oase-agent-01}
-      EXASTRO_ORGANIZATION_ID: ${EXASTRO_ORGANIZATION_ID}
-      EXASTRO_WORKSPACE_ID: ${EXASTRO_WORKSPACE_ID}
-      EXASTRO_REFRESH_TOKEN: ${EXASTRO_REFRESH_TOKEN}
-      EXASTRO_USERNAME: ${EXASTRO_USERNAME}
-      EXASTRO_PASSWORD: ${EXASTRO_PASSWORD}
-      EXASTRO_URL: ${EXASTRO_URL}
-      EVENT_COLLECTION_SETTINGS_NAMES: ${EVENT_COLLECTION_SETTINGS_NAMES}
-      ITERATION: ${ITERATION:-10}
-      EXECUTE_INTERVAL: ${EXECUTE_INTERVAL:-5}
-      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      ANSIBLE_AGENT_NAME: ${ANSIBLE_AGENT_NAME:-agent-ansible-execution-01}
+      ANSIBLE_EXASTRO_ORGANIZATION_ID: ${ANSIBLE_EXASTRO_ORGANIZATION_ID}
+      ANSIBLE_EXASTRO_WORKSPACE_ID: ${ANSIBLE_EXASTRO_WORKSPACE_ID}
+      ANSIBLE_EXASTRO_REFRESH_TOKEN: ${ANSIBLE_EXASTRO_PASSWORD}
+      ANSIBLE_EXASTRO_URL: ${ANSIBLE_EXASTRO_URL}
+      ANSIBLE_ITERATION: ${ANSIBLE_ITERATION:-10}
+      ANSIBLE_EXECUTE_INTERVAL: ${ANSIBLE_EXECUTE_INTERVAL:-3}
+      ANSIBLE_LOG_LEVEL: ${ANSIBLE_LOG_LEVEL:-INFO}
+      ANSIBLE_CHILD_PROCESS_RETRY_LIMIT: ${ANSIBLE_CHILD_PROCESS_RETRY_LIMIT:-0}
     volumes:
       - vol-ita-storage:/storage
     networks:
