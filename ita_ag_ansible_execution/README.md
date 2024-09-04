@@ -125,4 +125,4 @@ docker-compose up -d  --wait
 | ANSIBLE_ITERATION                           | Ansible エージェント が設定を初期化するまでの、処理の繰り返し数   | 可                     | 10（下限値: 10）                               |
 | ANSIBLE_EXECUTE_INTERVAL                    | Ansible エージェント のデータ収集処理の実行間隔                  | 可                    | 3（下限値: 3）                                  |
 | ANSIBLE_LOG_LEVEL                           | Ansible エージェント のログレベル                              | 可                     | INFO                                           |
-| ANSIBLE_CHILD_PROCESS_RETRY_LIMIT                    | Exastro IT Automation で作成した パスワード                                | 可                     | 0                                  |
+| ANSIBLE_CHILD_PROCESS_RETRY_LIMIT                    |                                 | 可                     | 0                                  |
