@@ -258,6 +258,9 @@ http://gitlab.example.com:40080
 | ORG_ANSIBLE_EXECUTION_LIMIT_DEFAULT     | Exastro システム全体の Movement デフォルト実行数                            | 可                            | 25                                                                                                      |
 | ORG_ANSIBLE_EXECUTION_LIMIT_MAX         | オーガナイゼーションごとの Movement 最大実行数                              | 可                            | 1000                                                                                                    |
 | ORG_ANSIBLE_EXECUTION_LIMIT_DESCRIPTION | Movement 最大実行数の説明文表記                                             | 不要                          | Maximum number of movement executions for organization default                                          |
+| ORG_COMMON_UPLOAD_FILE_LIMIT_DEFAULT     | Exastro システム全体のアップロード可能なファイルサイズのデフォルト上限（バイト）                            | 可                            | 104857600                                                                                                      |
+| ORG_COMMON_UPLOAD_FILE_LIMIT_MAX         | オーガナイゼーションごとのアップロード可能なファイルサイズの上限（バイト）                              | 可                            | 107374182400                                                                                                    |
+| ORG_COMMON_UPLOAD_FILE_LIMIT_DESCRIPTION | アップロード可能なファイルサイズ上限の説明文表記                                             | 不要                          | Maximum byte size of upload file for organization default                                          |
 | MONGO_VERSION                           | 起動するMongoDBのバージョン                                      | 可                           | 6.0.7            |
 | MONGO_INITDB_ROOT_USERNAME              | 起動するMongoDBコンテナの管理ユーザー名                           | 可                           | adminer          |
 | MONGO_INITDB_ROOT_PASSWORD              | 起動するMongoDBコンテナの管理ユーザーのパスワード                  | **必須**                     | Ch@ngeMeDBAdm    |
