@@ -91,7 +91,7 @@ docker-compose up -d  --wait
 | ITA_VERSION                         | Ansible エージェント のバージョン                              | 可                     | 2.5.0                                     |
 | UID                                 | Ansible エージェント の実行ユーザ                              | 不要                   | **1000** (デフォルト): Docker 利用の場合<br>**0**: Podman 利用の場合     |
 | HOST_DOCKER_GID                     | ホスト上の Docker のグループID                             | 不要                    | **999**: Docker 利用の場合<br>**0**: Podman 利用の場合           |
-| AGENT_NAME                  | 起動する Ansibleエージェントの名前                             | 可                     | agent-ansible-execution-01                         |
+| AGENT_NAME                  | 起動する Ansibleエージェントの名前                             | 可                     | ita-ansible-execute-agent-01                         |
 | EXASTRO_URL                 | Exastro IT Automation の Service URL                      | 可                     | http://localhost:30080                    |
 | EXASTRO_ORGANIZATION_ID             | Exastro IT Automation で作成した OrganizationID            | **必須**               | 無し                                      |
 | EXASTRO_WORKSPACE_ID                | Exastro IT Automation で作成した WorkspaceID               | **必須**               | 無し                                      |
