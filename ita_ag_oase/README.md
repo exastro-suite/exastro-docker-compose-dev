@@ -123,7 +123,7 @@ docker-compose up -d  --wait
 | EXASTRO_WORKSPACE_ID                | Exastro IT Automation で作成した WorkspaceID               | **必須**               | 無し                                      |
 | EXASTRO_REFRESH_TOKEN | Exastro システム管理画面から取得したリフレッシュトークン | 可 | 無し |
 | EXASTRO_USERNAME                    | Exastro IT Automation で作成した ユーザー名 ※EXASTRO_REFRESH_TOKENを使わない場合（非推奨）                | 可                     | 無し                                     |
-| EXASTRO_PASSWORD                    | Exastro IT Automation で作成した パスワード ※EXASTRO_REFRESH_TOKENを使わない場合（非推奨）z                               | 可                     | 無し                                  |
+| EXASTRO_PASSWORD                    | Exastro IT Automation で作成した パスワード ※EXASTRO_REFRESH_TOKENを使わない場合（非推奨）                               | 可                     | 無し                                  |
 | EVENT_COLLECTION_SETTINGS_NAMES     | Exastro IT Automation のOASE管理 エージェント で作成した イベント収集設定名  | **必須**   | 無し※カンマ区切りで複数指定可能   |
 | ITERATION                           | OASE エージェント が設定を初期化するまでの、処理の繰り返し数   | 可                     | 10（上限値: 120, 下限値: 10）                               |
 | EXECUTE_INTERVAL                    | OASE エージェント のデータ収集処理の実行間隔                  | 可                    | 5（下限値: 3）                                  |
