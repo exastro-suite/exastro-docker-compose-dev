@@ -182,6 +182,9 @@ services:
     environment:
       EXTERNAL_URL: ${EXASTRO_EXTERNAL_URL:-}
       EXTERNAL_URL_MNG: ${EXASTRO_MNG_EXTERNAL_URL:-}
+      EXASTRO_HTTPS: ${EXASTRO_HTTPS:-false}
+      CERTIFICATE_FILE: ${CERTIFICATE_FILE:-exastro.crt}
+      PRIVATE_KEY_FILE: ${PRIVATE_KEY_FILE:-exastro.key}
       TZ: ${TZ:-Asia/Tokyo}
       DEFAULT_LANGUAGE: ${DEFAULT_LANGUAGE:-ja}
       LANGUAGE: ${LANGUAGE:-en}
@@ -237,6 +240,7 @@ services:
       - "0.0.0.0:${EXTERNAL_URL_MNG_PORT:-81}:8001"
     volumes:
       - vol-exastro-log:/var/log/exastro
+      - vol-exastro-ssl:/etc/ssl/certs/exastro
     networks:
       - exastro
     depends_on:
@@ -1707,6 +1711,12 @@ volumes:
       type: 'none'
       o: 'bind'
       device: ${PWD}/.volumes/exastro/log
+  vol-exastro-ssl:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: ${PWD}/.volumes/exastro/ssl
 networks:
   exastro:
     name: "exastro_${NETWORK_ID}"
