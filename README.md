@@ -149,22 +149,18 @@ ita-by-file-autocleanを毎日00時01分、ita-by-file-autocleanを毎日00時02
 
 ### 設定例
 
-| 設定項目                      | 設定値                  |
-| ----------------------------- | ----------------------- |
-| システム管理者                 | admin                   |
-| システム管理者パスワード        | password                |
-| Organization ID               | sample-org              |
-| Organization 管理者           | admin                   |
-| Organization 管理者パスワード  | password                |
-| EXTERNAL_URL_PROTOCOL         | http                    |
-| EXTERNAL_URL_HOST             | exastro.example.com     |
-| EXTERNAL_URL_PORT             | 30080                   |
-| EXTERNAL_URL_MNG_PROTOCOL     | http                    |
-| EXTERNAL_URL_MNG_HOST         | exastro-mng.example.com |
-| EXTERNAL_URL_MNG_PORT         | 30081                   |
-| GITLAB_PROTOCOL               | http                    |
-| GITLAB_HOST                   | gitlab.example.com      |
-| GITLAB_PORT                   | 40080                   |
+| 設定項目                      | 設定値                               |
+| ----------------------------- | ------------------------------------ |
+| システム管理者                | admin                                |
+| システム管理者パスワード      | password                             |
+| Organization ID               | sample-org                           |
+| Organization 管理者           | admin                                |
+| Organization 管理者パスワード | password                             |
+| EXASTRO_EXTERNAL_URL          | http://exastro.example.com:30080     |
+| EXASTRO_MNG_EXTERNAL_URL      | http://exastro-mng.example.com:30081 |
+| GITLAB_PROTOCOL               | http                                 |
+| GITLAB_HOST                   | gitlab.example.com                   |
+| GITLAB_PORT                   | 40080                                |
 
 
 ### Organization 作成
@@ -219,12 +215,13 @@ http://gitlab.example.com:40080
 | KEYCLOAK_DB_USER                        | Keycloak が利用するデータベースのユーザ名                                   | 可 (外部のデータベース利用時) | keycloak                                                                                                |
 | KEYCLOAK_DB_PASSWORD                    | Keycloak が利用するデータベースのパスワード                                 | **必須**                      | Ch@ngeMeKCADB                                                                                           |
 | KEYCLOAK_DB_DATABASE                    | Keycloak が利用するデータベース名                                           | 可                            | keycloak                                                                                                |
-| EXTERNAL_URL_PROTOCOL                   | Exastro Platform エンドポイントの公開プロトコル                             | 可                            | http                                                                                                    |
-| EXTERNAL_URL_HOST                       | Exastro Platform エンドポイントの公開ホスト                                 | **必須**                      | 127.0.0.1                                                                                               |
 | EXTERNAL_URL_PORT                       | Exastro Platform エンドポイントの公開ポート番号                             | 可                            | 80                                                                                                      |
-| EXTERNAL_URL_MNG_PROTOCOL               | Exastro Platform 管理コンソールのエンドポイントの公開プロトコル             | 可                            | http                                                                                                    |
-| EXTERNAL_URL_MNG_HOST                   | Exastro Platform 管理コンソールのエンドポイントの公開ホスト                 | **必須**                      | 127.0.0.1                                                                                               |
+| EXASTRO_EXTERNAL_URL                   | Exastro Platform エンドポイントの公開URL                             | **必須**                            | https://localhost:80                                                                                                    |
 | EXTERNAL_URL_MNG_PORT                   | Exastro Platform 管理コンソールのエンドポイントの公開ポート番号             | 可                            | 81                                                                                                      |
+| EXASTRO_MNG_EXTERNAL_URL               | Exastro Platform 管理コンソールのエンドポイントの公開URL             | **必須**                           | https://localhost:81                                                                                                    |
+| EXASTRO_HTTPS     | Exastro Platform にSSL証明書を設定有無             | 可  | false           |
+| CERTIFICATE_FILE  | Exastro Platform サーバー証明書のファイル名             | 可  | localhost.crt  |
+| PRIVATE_KEY_FILE  | Exastro Platform 秘密鍵のファイル名             | 可  | localhost.key  |
 | ENCRYPT_KEY                             | Exastro Platform 内で保管するデータの暗号化と復号のための AES キー          | **必須**                      | 'Q2hhbmdlTWUxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ='                                                          |
 | PLATFORM_VERSION                        | Exastro Platform のバージョン                                               | 可                            | 1.8.2                                                                                                   |
 | PLATFORM_DB_VENDOR                      | Exastro Platform が利用するデータベースエンジン                             | 可 (外部のデータベース利用時) | **"mariadb"** (デフォルト): MariaDB を利用<br>**"mysql"**: MySQL を利用                                 |
