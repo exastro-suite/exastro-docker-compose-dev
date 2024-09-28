@@ -1687,6 +1687,10 @@ services:
       DB_ADMIN_PASSWORD: ${ITA_DB_ADMIN_PASSWORD}
       DB_USER: ${ITA_DB_USER:-ITA_USER}
       DB_PASSWORD: ${ITA_DB_PASSWORD}
+      MONGO_OPTION_SSL: ${MONGO_OPTION_SSL:-FALSE}
+      MONGO_SCHEME: ${MONGO_SCHEME:-mongodb}
+      MONGO_HOST: ${MONGO_HOST}
+      MONGO_PORT: ${MONGO_PORT:-27017}
     volumes:
       - vol-ita-storage:/storage:rw
     networks:
