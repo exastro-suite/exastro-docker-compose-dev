@@ -14,7 +14,7 @@
 version: '3.7'
 services:
   ita-ag-oase:
-    image: docker.io/exastro/exastro-it-automation-ag-oase:${ITA_VERSION:-2.4.2}
+    image: docker.io/exastro/exastro-it-automation-ag-oase:${ITA_VERSION:-2.5.0}
     container_name: ${AGENT_NAME:-ita-oase-agent-01}
     hostname: ${AGENT_NAME:-ita-oase-agent-01}
     restart: always
@@ -26,8 +26,9 @@ services:
       AGENT_NAME: ${AGENT_NAME:-ita-oase-agent-01}
       EXASTRO_ORGANIZATION_ID: ${EXASTRO_ORGANIZATION_ID}
       EXASTRO_WORKSPACE_ID: ${EXASTRO_WORKSPACE_ID}
-      EXASTRO_USERNAME: ${EXASTRO_USERNAME}
-      EXASTRO_PASSWORD: ${EXASTRO_PASSWORD}
+      EXASTRO_REFRESH_TOKEN: ${EXASTRO_REFRESH_TOKEN:-}
+      EXASTRO_USERNAME: ${EXASTRO_USERNAME:-}
+      EXASTRO_PASSWORD: ${EXASTRO_PASSWORD:-}
       EXASTRO_URL: ${EXASTRO_URL}
       EVENT_COLLECTION_SETTINGS_NAMES: ${EVENT_COLLECTION_SETTINGS_NAMES}
       ITERATION: ${ITERATION:-10}
