@@ -1170,7 +1170,7 @@ The system parameters are as follows.
 
 System administrator password:    ********
 MariaDB password:                 ********
-OASE deployment:                  $(if "${is_use_oase}"; then echo "true"; else echo "false"; fi)
+OASE deployment:                  $(if "${is_use_oase}"; then echo "Yes"; else echo "No"; fi)
 MongoDB password:                 ********
 Service URL:                      ${EXASTRO_EXTERNAL_URL}
 Manegement URL:                   ${EXASTRO_MNG_EXTERNAL_URL}
