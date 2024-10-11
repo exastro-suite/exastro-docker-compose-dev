@@ -1146,7 +1146,8 @@ setup() {
                 echo ""
                 if [ "$url" = "" ]; then
                     is_set_gitlab_external_url=false
-                    GITLAB_EXTERNAL_URL="http://<IP address or FQDN>:${GITLAB_PORT}"
+                    GITLAB_HOST=$(echo $EXASTRO_EXTERNAL_URL | awk -F[:/] '{print $4}')
+                    GITLAB_EXTERNAL_URL="${GITLAB_PROTOCOL}://${GITLAB_HOST}:${GITLAB_PORT}"
                 else
                     is_set_gitlab_external_url=true
                     if ! $(echo "${url}" | grep -q "http://.*") && ! $(echo "${url}" | grep -q "https://.*")  ; then
@@ -1438,7 +1439,7 @@ prompt() {
     then
         GITLAB_URL="${GITLAB_EXTERNAL_URL}"
     else
-        GITLAB_URL="${GITLAB_PROTOCOL}://<IP address or FQDN>:${GITLAB_PORT}"
+        GITLAB_URL="${GITLAB_PROTOCOL}://${GITLAB_HOST}:${GITLAB_PORT}"
     fi
     banner
     cat<<_EOF_
@@ -1471,11 +1472,11 @@ GitLab page:
 
 _EOF_
     printf "GitLab service is not ready."
-    while ! curl -sfI -o /dev/null ${GITLAB_PROTOCOL}://${GITLAB_HOST}:${GITLAB_PORT}/-/readiness;
-    do
-        printf "."
-        sleep 1
-    done
+    # while ! curl -sfI -o /dev/null ${GITLAB_PROTOCOL}://${GITLAB_HOST}:${GITLAB_PORT}/-/readiness;
+    # do
+    #     printf "."
+    #     sleep 1
+    # done
     while ! curl -sfI -o /dev/null -H "PRIVATE-TOKEN: ${GITLAB_ROOT_TOKEN:-}" ${GITLAB_PROTOCOL}://${GITLAB_HOST}:${GITLAB_PORT}/api/v4/version;
     do
         printf "."
