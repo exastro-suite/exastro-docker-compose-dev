@@ -149,22 +149,18 @@ ita-by-file-autocleanを毎日00時01分、ita-by-file-autocleanを毎日00時02
 
 ### 設定例
 
-| 設定項目                      | 設定値                  |
-| ----------------------------- | ----------------------- |
-| システム管理者                 | admin                   |
-| システム管理者パスワード        | password                |
-| Organization ID               | sample-org              |
-| Organization 管理者           | admin                   |
-| Organization 管理者パスワード  | password                |
-| EXTERNAL_URL_PROTOCOL         | http                    |
-| EXTERNAL_URL_HOST             | exastro.example.com     |
-| EXTERNAL_URL_PORT             | 30080                   |
-| EXTERNAL_URL_MNG_PROTOCOL     | http                    |
-| EXTERNAL_URL_MNG_HOST         | exastro-mng.example.com |
-| EXTERNAL_URL_MNG_PORT         | 30081                   |
-| GITLAB_PROTOCOL               | http                    |
-| GITLAB_HOST                   | gitlab.example.com      |
-| GITLAB_PORT                   | 40080                   |
+| 設定項目                      | 設定値                               |
+| ----------------------------- | ------------------------------------ |
+| システム管理者                | admin                                |
+| システム管理者パスワード      | password                             |
+| Organization ID               | sample-org                           |
+| Organization 管理者           | admin                                |
+| Organization 管理者パスワード | password                             |
+| EXASTRO_EXTERNAL_URL          | http://exastro.example.com:30080     |
+| EXASTRO_MNG_EXTERNAL_URL      | http://exastro-mng.example.com:30081 |
+| GITLAB_PROTOCOL               | http                                 |
+| GITLAB_HOST                   | gitlab.example.com                   |
+| GITLAB_PORT                   | 40080                                |
 
 
 ### Organization 作成
@@ -219,14 +215,15 @@ http://gitlab.example.com:40080
 | KEYCLOAK_DB_USER                        | Keycloak が利用するデータベースのユーザ名                                   | 可 (外部のデータベース利用時) | keycloak                                                                                                |
 | KEYCLOAK_DB_PASSWORD                    | Keycloak が利用するデータベースのパスワード                                 | **必須**                      | Ch@ngeMeKCADB                                                                                           |
 | KEYCLOAK_DB_DATABASE                    | Keycloak が利用するデータベース名                                           | 可                            | keycloak                                                                                                |
-| EXTERNAL_URL_PROTOCOL                   | Exastro Platform エンドポイントの公開プロトコル                             | 可                            | http                                                                                                    |
-| EXTERNAL_URL_HOST                       | Exastro Platform エンドポイントの公開ホスト                                 | **必須**                      | 127.0.0.1                                                                                               |
 | EXTERNAL_URL_PORT                       | Exastro Platform エンドポイントの公開ポート番号                             | 可                            | 80                                                                                                      |
-| EXTERNAL_URL_MNG_PROTOCOL               | Exastro Platform 管理コンソールのエンドポイントの公開プロトコル             | 可                            | http                                                                                                    |
-| EXTERNAL_URL_MNG_HOST                   | Exastro Platform 管理コンソールのエンドポイントの公開ホスト                 | **必須**                      | 127.0.0.1                                                                                               |
+| EXASTRO_EXTERNAL_URL                   | Exastro Platform エンドポイントの公開URL                             | **必須**                            | https://localhost:80                                                                                                    |
 | EXTERNAL_URL_MNG_PORT                   | Exastro Platform 管理コンソールのエンドポイントの公開ポート番号             | 可                            | 81                                                                                                      |
+| EXASTRO_MNG_EXTERNAL_URL               | Exastro Platform 管理コンソールのエンドポイントの公開URL             | **必須**                           | https://localhost:81                                                                                                    |
+| EXASTRO_HTTPS     | Exastro Platform にSSL証明書を設定有無             | 可  | false           |
+| CERTIFICATE_FILE  | Exastro Platform サーバー証明書のファイル名             | 可  | localhost.crt  |
+| PRIVATE_KEY_FILE  | Exastro Platform 秘密鍵のファイル名             | 可  | localhost.key  |
 | ENCRYPT_KEY                             | Exastro Platform 内で保管するデータの暗号化と復号のための AES キー          | **必須**                      | 'Q2hhbmdlTWUxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ='                                                          |
-| PLATFORM_VERSION                        | Exastro Platform のバージョン                                               | 可                            | 1.8.2                                                                                                   |
+| PLATFORM_VERSION                        | Exastro Platform のバージョン                                               | 可                            | 1.9.0                                                                                                   |
 | PLATFORM_DB_VENDOR                      | Exastro Platform が利用するデータベースエンジン                             | 可 (外部のデータベース利用時) | **"mariadb"** (デフォルト): MariaDB を利用<br>**"mysql"**: MySQL を利用                                 |
 | PLATFORM_DB_HOST                        | Exastro Platform が利用するデータベースのホスト名                           | 可 (外部のデータベース利用時) | mariadb                                                                                                 |
 | PLATFORM_DB_PORT                        | Exastro Platform が利用するデータベースのポート番号                         | 可 (外部のデータベース利用時) | 3306                                                                                                    |
@@ -239,7 +236,7 @@ http://gitlab.example.com:40080
 | AUDIT_LOG_PATH                          | 監査ログのファイル名（ファイルパス）                                        | 可                            | exastro-audit.log (デフォルト)                                                                          |
 | AUDIT_LOG_FILE_MAX_BYTE                 | 監査ログファイルの最大サイズ(Byte)を指定できます                            | 可                            | 100000000 (デフォルト)                                                                                  |
 | AUDIT_LOG_BACKUP_COUNT                  | 監査ログファイルのバックアップカウント数<br>監査ログファイルの最大サイズ(Byte)を超えた際、ファイル名に"."＋数値で指定された値の分、バックアップされます | 可 | 30 (デフォルト)　　                                     |
-| ITA_VERSION                             | Exastro IT Automation のバージョン                                          | 可                            | 2.4.2      |
+| ITA_VERSION                             | Exastro IT Automation のバージョン                                          | 可                            | 2.5.0      |
 | ITA_DB_VENDOR                           | Exastro IT Automation が利用するデータベースエンジン                        | 可 (外部のデータベース利用時) | **"mariadb"** (デフォルト): MariaDB を利用<br>**"mysql"**: MySQL を利用                                 |
 | ITA_DB_HOST                             | Exastro IT Automation が利用するデータベースのホスト名                      | 可 (外部のデータベース利用時) | mariadb                                                                                                 |
 | ITA_DB_PORT                             | Exastro IT Automation が利用するデータベースのポート番号                    | 可 (外部のデータベース利用時) | 3306                                                                                                    |
@@ -255,9 +252,12 @@ http://gitlab.example.com:40080
 | ANSIBLE_AGENT_IMAGE                     | Ansible Agent のコンテナイメージのリポジトリ名                              | 不要                          | exastro/exastro-it-automation-by-ansible-agent                                                          |
 | ANSIBLE_AGENT_IMAGE_TAG                 | Ansible Agent のコンテナイメージのタグ                                      | 不要                          | 2.1.2                                                                                                   |
 | SYSTEM_ANSIBLE_EXECUTION_LIMIT          | Exastro システム全体の Movement 最大実行数                                  | 可                            | 25                                                                                                      |
-| ORG_ANSIBLE_EXECUTION_LIMIT_DEFAULT     | Exastro システム全体の Movement デフォルト実行数                            | 可                            | 25                                                                                                      |
+| ORG_ANSIBLE_EXECUTION_LIMIT_DEFAULT     | オーガナイゼーションごとの Movement デフォルト実行数                            | 可                            | 25                                                                                                      |
 | ORG_ANSIBLE_EXECUTION_LIMIT_MAX         | オーガナイゼーションごとの Movement 最大実行数                              | 可                            | 1000                                                                                                    |
 | ORG_ANSIBLE_EXECUTION_LIMIT_DESCRIPTION | Movement 最大実行数の説明文表記                                             | 不要                          | Maximum number of movement executions for organization default                                          |
+| ORG_COMMON_UPLOAD_FILE_LIMIT_DEFAULT     | オーガナイゼーションごとのアップロード可能なファイルサイズのデフォルト上限（バイト）                            | 可                            | 104857600                                                                                                      |
+| ORG_COMMON_UPLOAD_FILE_LIMIT_MAX         | オーガナイゼーションごとのアップロード可能なファイルサイズの上限（バイト）                              | 可                            | 107374182400                                                                                                    |
+| ORG_COMMON_UPLOAD_FILE_LIMIT_DESCRIPTION | アップロード可能なファイルサイズ上限の説明文表記                                             | 不要                          | Maximum byte size of upload file for organization default                                          |
 | MONGO_VERSION                           | 起動するMongoDBのバージョン                                      | 可                           | 6.0.7            |
 | MONGO_INITDB_ROOT_USERNAME              | 起動するMongoDBコンテナの管理ユーザー名                           | 可                           | adminer          |
 | MONGO_INITDB_ROOT_PASSWORD              | 起動するMongoDBコンテナの管理ユーザーのパスワード                  | **必須**                     | Ch@ngeMeDBAdm    |
