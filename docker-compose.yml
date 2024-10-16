@@ -13,6 +13,13 @@
 #   limitations under the License.
 
 version: '3.7'
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: ${LOGGING_MAX_SIZE:-10m}
+    max-file: '${LOGGING_MAX_FILE:-10}'
+
 services:
   mariadb:
     image: docker.io/${DB_VENDOR:-mariadb}:${DB_VERSION:-10.11.4}
@@ -38,11 +45,7 @@ services:
       - all
       - base
       - mariadb
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   gitlab:
     image: docker.io/gitlab/gitlab-ce:${GITLAB_VERSION:-15.11.13-ce.0}
@@ -98,11 +101,7 @@ services:
     profiles:
       - all
       - gitlab
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   mongo:
     image: docker.io/mongo:${MONGO_VERSION:-6.0.7}
@@ -127,11 +126,7 @@ services:
     profiles:
       - all
       - mongo
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   keycloak:
     image: docker.io/exastro/keycloak:${PLATFORM_VERSION:-1.9.0}
@@ -167,11 +162,7 @@ services:
       - minimal
       - base
       - keycloak
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   platform-auth:
     image: docker.io/exastro/exastro-platform-auth:${PLATFORM_VERSION:-1.9.0}
@@ -252,11 +243,7 @@ services:
       - base
       - web
       - platform
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   platform-web:
     image: docker.io/exastro/exastro-platform-web:${PLATFORM_VERSION:-1.9.0}
@@ -307,11 +294,7 @@ services:
       - base
       - web
       - platform
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   platform-api:
     image: docker.io/exastro/exastro-platform-api:${PLATFORM_VERSION:-1.9.0}
@@ -368,11 +351,7 @@ services:
       - base
       - web
       - platform
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   platform-job:
     image: docker.io/exastro/exastro-platform-job:${PLATFORM_VERSION:-1.9.0}
@@ -429,11 +408,7 @@ services:
       - backyard
       - ita
       - platform
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   platform-migration-1:
     image: docker.io/exastro/exastro-platform-migration:${PLATFORM_VERSION:-1.9.0}
@@ -491,11 +466,7 @@ services:
       - base
       - migration
       - platform
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   platform-migration-2:
     image: docker.io/exastro/exastro-platform-migration:${PLATFORM_VERSION:-1.9.0}
@@ -556,11 +527,7 @@ services:
       - base
       - migration
       - platform
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-api-organization:
     image: docker.io/exastro/exastro-it-automation-api-organization:${ITA_VERSION:-2.5.0}
@@ -602,11 +569,7 @@ services:
       - base
       - web
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-api-admin:
     image: docker.io/exastro/exastro-it-automation-api-admin:${ITA_VERSION:-2.5.0}
@@ -654,11 +617,7 @@ services:
       - base
       - web
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-api-oase-receiver:
     image: docker.io/exastro/exastro-it-automation-api-oase-receiver:${ITA_VERSION:-2.5.0}
@@ -698,11 +657,7 @@ services:
       - base
       - web
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-api-ansible-execution-receiver:
     image: docker.io/exastro/exastro-it-automation-api-ansible-execution-receiver:${ITA_VERSION:-2.5.0}
@@ -740,12 +695,8 @@ services:
       - base
       - web
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
-        
+    logging: *logging
+
   ita-web-server:
     image: docker.io/exastro/exastro-it-automation-web-server:${ITA_VERSION:-2.5.0}
     container_name: ita-web-server
@@ -778,11 +729,7 @@ services:
       - base
       - web
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-ansible-execute:
     image: docker.io/exastro/exastro-it-automation-by-ansible-execute-onpremises:${ITA_VERSION:-2.5.0}
@@ -840,11 +787,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-ansible-legacy-role-vars-listup:
     image: docker.io/exastro/exastro-it-automation-by-ansible-legacy-role-vars-listup:${ITA_VERSION:-2.5.0}
@@ -883,11 +826,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-ansible-legacy-vars-listup:
     image: docker.io/exastro/exastro-it-automation-by-ansible-legacy-vars-listup:${ITA_VERSION:-2.5.0}
@@ -926,11 +865,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-ansible-pioneer-vars-listup:
     image: docker.io/exastro/exastro-it-automation-by-ansible-pioneer-vars-listup:${ITA_VERSION:-2.5.0}
@@ -969,11 +904,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-ansible-towermaster-sync:
     image: docker.io/exastro/exastro-it-automation-by-ansible-towermaster-sync:${ITA_VERSION:-2.5.0}
@@ -1012,11 +943,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-collector:
     image: docker.io/exastro/exastro-it-automation-by-collector:${ITA_VERSION:-2.5.0}
@@ -1055,11 +982,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-conductor-synchronize:
     image: docker.io/exastro/exastro-it-automation-by-conductor-synchronize:${ITA_VERSION:-2.5.0}
@@ -1098,11 +1021,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-conductor-regularly:
     image: docker.io/exastro/exastro-it-automation-by-conductor-regularly:${ITA_VERSION:-2.5.0}
@@ -1141,11 +1060,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-menu-create:
     image: docker.io/exastro/exastro-it-automation-by-menu-create:${ITA_VERSION:-2.5.0}
@@ -1184,11 +1099,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-menu-export-import:
     image: docker.io/exastro/exastro-it-automation-by-menu-export-import:${ITA_VERSION:-2.5.0}
@@ -1227,11 +1138,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-excel-export-import:
     image: docker.io/exastro/exastro-it-automation-by-excel-export-import:${ITA_VERSION:-2.5.0}
@@ -1270,11 +1177,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-terraform-cloud-ep-execute:
     image: docker.io/exastro/exastro-it-automation-by-terraform-cloud-ep-execute:${ITA_VERSION:-2.5.0}
@@ -1313,11 +1216,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-terraform-cloud-ep-vars-listup:
     image: docker.io/exastro/exastro-it-automation-by-terraform-cloud-ep-vars-listup:${ITA_VERSION:-2.5.0}
@@ -1356,11 +1255,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-terraform-cli-execute:
     image: docker.io/exastro/exastro-it-automation-by-terraform-cli-execute:${ITA_VERSION:-2.5.0}
@@ -1399,11 +1294,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-terraform-cli-vars-listup:
     image: docker.io/exastro/exastro-it-automation-by-terraform-cli-vars-listup:${ITA_VERSION:-2.5.0}
@@ -1442,11 +1333,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-hostgroup-split:
     image: docker.io/exastro/exastro-it-automation-by-hostgroup-split:${ITA_VERSION:-2.5.0}
@@ -1485,11 +1372,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-cicd-for-iac:
     image: docker.io/exastro/exastro-it-automation-by-cicd-for-iac:${ITA_VERSION:-2.5.0}
@@ -1528,11 +1411,7 @@ services:
       - base
       - backyard
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-oase-conclusion:
     image: docker.io/exastro/exastro-it-automation-by-oase-conclusion:${ITA_VERSION:-2.5.0}
@@ -1573,11 +1452,7 @@ services:
       - all
       - backyard
       - oase
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-execinstance-dataautoclean:
     image: docker.io/exastro/exastro-it-automation-by-execinstance-dataautoclean:${ITA_VERSION:-2.5.0}
@@ -1609,11 +1484,7 @@ services:
       - exastro
     profiles:
       - batch
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-by-file-autoclean:
     image: docker.io/exastro/exastro-it-automation-by-file-autoclean:${ITA_VERSION:-2.5.0}
@@ -1645,11 +1516,7 @@ services:
       - exastro
     profiles:
       - batch
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
   ita-migration:
     image: docker.io/exastro/exastro-it-automation-migration:${ITA_VERSION:-2.5.0}
@@ -1708,11 +1575,7 @@ services:
       - base
       - migration
       - ita
-    logging:
-      driver: json-file
-      options:
-        max-size: ${LOGGING_MAX_SIZE:-10m}
-        max-file: '${LOGGING_MAX_FILE:-10}'
+    logging: *logging
 
 volumes:
   vol-mariadb-data:
