@@ -34,7 +34,9 @@ MONGO_ADMIN_PASSWORD=Ch@ngeMeDBAdm
 is_use_oase=true
 is_use_gitlab_container=false
 is_set_exastro_external_url=false
+EXASTRO_EXTERNAL_URL='Exastro service URL is required.'
 is_set_exastro_mng_external_url=false
+EXASTRO_MNG_EXTERNAL_URL='EXASTRO_MNG_EXTERNAL_URL is required.'
 is_set_gitlab_external_url=false
 is_use_ssl=false
 is_copy_ssl_certificates=false
@@ -1234,10 +1236,10 @@ generate_env() {
     sed -i -e "s/^PLATFORM_DB_ADMIN_PASSWORD=.*/PLATFORM_DB_ADMIN_PASSWORD=${PLATFORM_DB_ADMIN_PASSWORD}/" ${ENV_FILE}
     sed -i -e "s/^PLATFORM_DB_PASSWORD=.*/PLATFORM_DB_PASSWORD=${PLATFORM_DB_PASSWORD}/" ${ENV_FILE}
     if "${is_set_exastro_external_url}"; then
-        sed -i -e "/^# EXASTRO_EXTERNAL_URL=.*/a EXASTRO_EXTERNAL_URL=${EXASTRO_EXTERNAL_URL}" ${ENV_FILE}
+        sed -i -e "|^EXASTRO_EXTERNAL_URL=.*|EXASTRO_EXTERNAL_URL=${EXASTRO_EXTERNAL_URL}|" ${ENV_FILE}
     fi
     if "${is_set_exastro_mng_external_url}"; then
-        sed -i -e "/^# EXASTRO_MNG_EXTERNAL_URL=.*/a EXASTRO_MNG_EXTERNAL_URL=${EXASTRO_MNG_EXTERNAL_URL}" ${ENV_FILE}
+        sed -i -e "|^EXASTRO_MNG_EXTERNAL_URL=.*|EXASTRO_MNG_EXTERNAL_URL=${EXASTRO_MNG_EXTERNAL_URL}|" ${ENV_FILE}
     fi
     if "${is_use_ssl}"; then
         sed -i -e "/^# EXASTRO_HTTPS=.*/a EXASTRO_HTTPS=${is_use_ssl}" ${ENV_FILE}
