@@ -33,8 +33,6 @@ MONGO_ADMIN_PASSWORD=Ch@ngeMeDBAdm
 
 is_use_oase=true
 is_use_gitlab_container=false
-is_set_exastro_external_url=false
-is_set_exastro_mng_external_url=false
 is_set_gitlab_external_url=false
 is_use_ssl=false
 is_copy_ssl_certificates=false
@@ -963,7 +961,6 @@ setup() {
                 echo ""
                 continue
             else
-                is_set_exastro_external_url=true
                 if ! $(echo "${url}" | grep -q "http://.*") && ! $(echo "${url}" | grep -q "https://.*") ; then
                     echo "Invalid URL format"
                     echo ""
@@ -992,7 +989,6 @@ setup() {
                 echo ""
                 continue
             else
-                is_set_exastro_mng_external_url=true
                 if ! $(echo "${url}" | grep -q "http://.*") && ! $(echo "${url}" | grep -q "https://.*"); then
                     echo "Invalid URL format"
                     echo ""
@@ -1233,12 +1229,9 @@ generate_env() {
     # fi
     sed -i -e "s/^PLATFORM_DB_ADMIN_PASSWORD=.*/PLATFORM_DB_ADMIN_PASSWORD=${PLATFORM_DB_ADMIN_PASSWORD}/" ${ENV_FILE}
     sed -i -e "s/^PLATFORM_DB_PASSWORD=.*/PLATFORM_DB_PASSWORD=${PLATFORM_DB_PASSWORD}/" ${ENV_FILE}
-    if "${is_set_exastro_external_url}"; then
-        sed -i -e "/^# EXASTRO_EXTERNAL_URL=.*/a EXASTRO_EXTERNAL_URL=${EXASTRO_EXTERNAL_URL}" ${ENV_FILE}
-    fi
-    if "${is_set_exastro_mng_external_url}"; then
-        sed -i -e "/^# EXASTRO_MNG_EXTERNAL_URL=.*/a EXASTRO_MNG_EXTERNAL_URL=${EXASTRO_MNG_EXTERNAL_URL}" ${ENV_FILE}
-    fi
+    # changed the delimiter (/ to |) because the environment variable is URL(http(s)://xxxx:xx).
+    sed -i -e "s|^EXASTRO_EXTERNAL_URL=.*|EXASTRO_EXTERNAL_URL=${EXASTRO_EXTERNAL_URL}|" ${ENV_FILE}
+    sed -i -e "s|^EXASTRO_MNG_EXTERNAL_URL=.*|EXASTRO_MNG_EXTERNAL_URL=${EXASTRO_MNG_EXTERNAL_URL}|" ${ENV_FILE}
     if "${is_use_ssl}"; then
         sed -i -e "/^# EXASTRO_HTTPS=.*/a EXASTRO_HTTPS=${is_use_ssl}" ${ENV_FILE}
     fi
