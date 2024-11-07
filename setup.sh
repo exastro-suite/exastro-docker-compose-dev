@@ -33,6 +33,8 @@ MONGO_ADMIN_PASSWORD=Ch@ngeMeDBAdm
 
 is_use_oase=true
 is_use_gitlab_container=false
+EXASTRO_EXTERNAL_URL='Exastro service URL is required.'
+EXASTRO_MNG_EXTERNAL_URL='EXASTRO_MNG_EXTERNAL_URL is required.'
 is_set_gitlab_external_url=false
 is_use_ssl=false
 is_copy_ssl_certificates=false
