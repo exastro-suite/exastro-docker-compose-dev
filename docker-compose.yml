@@ -171,8 +171,8 @@ services:
     restart: always
     user: ${UID:-1000}:${HOST_DOCKER_GID:-1000}
     environment:
-      EXTERNAL_URL: ${EXASTRO_EXTERNAL_URL:-}
-      EXTERNAL_URL_MNG: ${EXASTRO_MNG_EXTERNAL_URL:-}
+      EXTERNAL_URL: ${EXASTRO_EXTERNAL_URL:?Exastro service URL is required.}
+      EXTERNAL_URL_MNG: ${EXASTRO_MNG_EXTERNAL_URL:?Exastro management service URL is required.}
       EXASTRO_HTTPS: ${EXASTRO_HTTPS:-false}
       CERTIFICATE_FILE: ${CERTIFICATE_FILE:-exastro.crt}
       PRIVATE_KEY_FILE: ${PRIVATE_KEY_FILE:-exastro.key}
