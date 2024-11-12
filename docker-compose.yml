@@ -414,7 +414,6 @@ services:
     image: docker.io/exastro/exastro-platform-migration:${PLATFORM_VERSION:-1.9.0}
     container_name: platform-migration-1
     hostname: platform-migration-1
-    restart: on-failure
     command: python3 /app/initialize_db_main.py
     user: ${UID:-1000}:${HOST_DOCKER_GID:-1000}
     environment:
@@ -472,7 +471,6 @@ services:
     image: docker.io/exastro/exastro-platform-migration:${PLATFORM_VERSION:-1.9.0}
     container_name: platform-migration-2
     hostname: platform-migration-2
-    restart: on-failure
     command: python3 /app/migration_main.py
     user: ${UID:-1000}:${HOST_DOCKER_GID:-1000}
     environment:
@@ -1522,7 +1520,6 @@ services:
     image: docker.io/exastro/exastro-it-automation-migration:${ITA_VERSION:-2.5.1}
     container_name: ita-migration
     hostname: ita-migration
-    restart: on-failure
     command: python3 /exastro/migration_main.py
     user: ${UID:-1000}:${HOST_DOCKER_GID:-1000}
     environment:
