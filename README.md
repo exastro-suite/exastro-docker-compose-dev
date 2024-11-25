@@ -10,26 +10,20 @@ Docker Compose を利用することで、Exastro IT Automation を簡単に起�
 
 Ansible Automation Platfrom と連携しない場合（GitLabを起動しない場合）のハードウェア要件は下記の通りとなります。
 
-|              |        |
+|  種別 | 要求リソース |
 | ------------ | ------ |
 | CPU          | 2Cores |
 | メモリ       | 8GB    |
 | ディスク容量 | 40GB   |
 
-### ソフトウェア要件 (Docker利用時)
+### OSとソフトウェアの動作確認済みのバージョン
 
-| ソフトウェア  | 動作確認済みバージョン |
-| ------------- | ---------------------- |
-| Docker Engine | 24                     |
-| Git           | 2.31                   |
+| OS            | podman                 | Docker Compose         | docker                 |
+| ------------- | ---------------------- | ---------------------- | ---------------------- |
+| RHEL 9.4      | podman version 4.9.4-rhel | Docker Compose version v2.20.3 | -                  |
+| RHEL 8.9      | podman version 4.9.4-rhel | Docker Compose version v2.20.3 | -                  |
+| Almalinux 8.9 | -                         | -                              | Docker version 26.1.3 |
 
-### ソフトウェア要件 (Podman利用時)
-
-| ソフトウェア   | 動作確認済みバージョン |
-| -------------- | ---------------------- |
-| Podman Engine  | 4.4                    |
-| Docker Compose | 2.20                   |
-| Git            | 2.31                   |
 
 ## 環境構築
 
