@@ -18,7 +18,7 @@ Ansible Automation Platfrom と連携しない場合（GitLabを起動しない�
 
 ### OSとソフトウェアの動作確認済みのバージョン
 
-| OS            | podman                 | Docker Compose         | docker                 |
+| OS            | podman                 | Docker Compose         | Docker                 |
 | ------------- | ---------------------- | ---------------------- | ---------------------- |
 | RHEL 9.4      | podman version 4.9.4-rhel | Docker Compose version v2.20.3 | -                  |
 | RHEL 8.9      | podman version 4.9.4-rhel | Docker Compose version v2.20.3 | -                  |
