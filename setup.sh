@@ -1064,8 +1064,8 @@ setup() {
         fi
 
         if [ "${DEP_PATTERN}" = "RHEL8" ] || [ "${DEP_PATTERN}" = "RHEL9" ]; then
-            podman unshare chown ${EXASTRO_UID}:${EXASTRO_GID} "${PROJECT_DIR}/.volumes/storage/"
-            podman unshare chown ${EXASTRO_UID}:${EXASTRO_GID} "${PROJECT_DIR}/.volumes/exastro/"
+            podman unshare chown -R ${EXASTRO_UID}:${EXASTRO_GID} "${PROJECT_DIR}/.volumes/storage/"
+            podman unshare chown -R ${EXASTRO_UID}:${EXASTRO_GID} "${PROJECT_DIR}/.volumes/exastro/"
             sudo chcon -R -h -t container_file_t "${PROJECT_DIR}"
         elif [ "${DEP_PATTERN}" = "AlmaLinux8" ]; then
             sudo chown -R ${EXASTRO_UID}:${HOST_DOCKER_GID} "${PROJECT_DIR}/.volumes/storage/"
