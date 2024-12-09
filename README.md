@@ -10,26 +10,20 @@ Docker Compose を利用することで、Exastro IT Automation を簡単に起�
 
 Ansible Automation Platfrom と連携しない場合（GitLabを起動しない場合）のハードウェア要件は下記の通りとなります。
 
-|              |        |
+|  種別 | 要求リソース |
 | ------------ | ------ |
 | CPU          | 2Cores |
 | メモリ       | 8GB    |
 | ディスク容量 | 40GB   |
 
-### ソフトウェア要件 (Docker利用時)
+### OSとソフトウェアの動作確認済みのバージョン
 
-| ソフトウェア  | 動作確認済みバージョン |
-| ------------- | ---------------------- |
-| Docker Engine | 24                     |
-| Git           | 2.31                   |
+| OS            | podman                 | Docker Compose         | Docker                 |
+| ------------- | ---------------------- | ---------------------- | ---------------------- |
+| RHEL 9.4      | podman version 4.9.4-rhel | Docker Compose version v2.20.3 | -                  |
+| RHEL 8.9      | podman version 4.9.4-rhel | Docker Compose version v2.20.3 | -                  |
+| Almalinux 8.9 | -                         | -                              | Docker version 26.1.3 |
 
-### ソフトウェア要件 (Podman利用時)
-
-| ソフトウェア   | 動作確認済みバージョン |
-| -------------- | ---------------------- |
-| Podman Engine  | 4.4                    |
-| Docker Compose | 2.20                   |
-| Git            | 2.31                   |
 
 ## 環境構築
 
@@ -236,7 +230,7 @@ http://gitlab.example.com:40080
 | AUDIT_LOG_PATH                          | 監査ログのファイル名（ファイルパス）                                        | 可                            | exastro-audit.log (デフォルト)                                                                          |
 | AUDIT_LOG_FILE_MAX_BYTE                 | 監査ログファイルの最大サイズ(Byte)を指定できます                            | 可                            | 100000000 (デフォルト)                                                                                  |
 | AUDIT_LOG_BACKUP_COUNT                  | 監査ログファイルのバックアップカウント数<br>監査ログファイルの最大サイズ(Byte)を超えた際、ファイル名に"."＋数値で指定された値の分、バックアップされます | 可 | 30 (デフォルト)　　                                     |
-| ITA_VERSION                             | Exastro IT Automation のバージョン                                          | 可                            | 2.5.1      |
+| ITA_VERSION                             | Exastro IT Automation のバージョン                                          | 可                            | 2.5.2      |
 | ITA_DB_VENDOR                           | Exastro IT Automation が利用するデータベースエンジン                        | 可 (外部のデータベース利用時) | **"mariadb"** (デフォルト): MariaDB を利用<br>**"mysql"**: MySQL を利用                                 |
 | ITA_DB_HOST                             | Exastro IT Automation が利用するデータベースのホスト名                      | 可 (外部のデータベース利用時) | mariadb                                                                                                 |
 | ITA_DB_PORT                             | Exastro IT Automation が利用するデータベースのポート番号                    | 可 (外部のデータベース利用時) | 3306                                                                                                    |
@@ -250,7 +244,7 @@ http://gitlab.example.com:40080
 | HOST_DOCKER_SOCKET_PATH                 | ホストの Docker もしくは Podman のソケットファイルのパス                    | 可                            | **/var/run/docker.sock**: Docker 利用の場合<br>**/run/user/1000/podman/podman.sock**: Podman 利用の場合 |
 | PWD                                     | Exastro IT Automation が利用する共有フォルダのパス                          | 可                            | カレントディレクトリー                                                                                  |
 | ANSIBLE_AGENT_IMAGE                     | Ansible Agent のコンテナイメージのリポジトリ名                              | 不要                          | exastro/exastro-it-automation-by-ansible-agent                                                          |
-| ANSIBLE_AGENT_IMAGE_TAG                 | Ansible Agent のコンテナイメージのタグ                                      | 不要                          | 2.5.1                                                                                                   |
+| ANSIBLE_AGENT_IMAGE_TAG                 | Ansible Agent のコンテナイメージのタグ                                      | 不要                          | 2.5.2                                                                                                   |
 | SYSTEM_ANSIBLE_EXECUTION_LIMIT          | Exastro システム全体の Movement 最大実行数                                  | 可                            | 25                                                                                                      |
 | ORG_ANSIBLE_EXECUTION_LIMIT_DEFAULT     | オーガナイゼーションごとの Movement デフォルト実行数                            | 可                            | 25                                                                                                      |
 | ORG_ANSIBLE_EXECUTION_LIMIT_MAX         | オーガナイゼーションごとの Movement 最大実行数                              | 可                            | 1000                                                                                                    |
