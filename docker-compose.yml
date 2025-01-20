@@ -741,8 +741,10 @@ services:
       LANGUAGE: ${LANGUAGE:-en}
       ENCRYPT_KEY: ${ENCRYPT_KEY}
       EXECUTE_INTERVAL: ${INTERFACE_EXECUTE_INTERVAL:-3}
-      ANSIBLE_AGENT_IMAGE: ${ANSIBLE_AGENT_IMAGE:-docker.io/exastro/exastro-it-automation-by-ansible-agent}
+      ANSIBLE_AGENT_IMAGE: ${ANSIBLE_AGENT_IMAGE:-my-exastro-ansible-agent}
       ANSIBLE_AGENT_IMAGE_TAG: ${ANSIBLE_AGENT_IMAGE_TAG:-2.5.3}
+      ANSIBLE_AGENT_BASE_IMAGE: ${ANSIBLE_AGENT_BASE_IMAGE:-docker.io/exastro/exastro-it-automation-by-ansible-agent}
+      ANSIBLE_AGENT_BASE_IMAGE_TAG: ${ANSIBLE_AGENT_BASE_IMAGE_TAG:-2.5.3}
       DOCKER_BUILDKIT: 0
       UID: ${UID:-1000}
       HOST_DOCKER_GID: ${HOST_DOCKER_GID:-1000}
