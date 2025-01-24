@@ -129,7 +129,7 @@ services:
     logging: *logging
 
   keycloak:
-    image: docker.io/exastro/keycloak:${PLATFORM_VERSION:-1.9.0}
+    image: docker.io/exastro/keycloak:${PLATFORM_VERSION:-1.9.1}
     container_name: keycloak
     hostname: keycloak
     restart: always
@@ -165,7 +165,7 @@ services:
     logging: *logging
 
   platform-auth:
-    image: docker.io/exastro/exastro-platform-auth:${PLATFORM_VERSION:-1.9.0}
+    image: docker.io/exastro/exastro-platform-auth:${PLATFORM_VERSION:-1.9.1}
     container_name: platform-auth
     hostname: platform-auth
     restart: always
@@ -246,7 +246,7 @@ services:
     logging: *logging
 
   platform-web:
-    image: docker.io/exastro/exastro-platform-web:${PLATFORM_VERSION:-1.9.0}
+    image: docker.io/exastro/exastro-platform-web:${PLATFORM_VERSION:-1.9.1}
     container_name: platform-web
     hostname: platform-web
     restart: always
@@ -297,7 +297,7 @@ services:
     logging: *logging
 
   platform-api:
-    image: docker.io/exastro/exastro-platform-api:${PLATFORM_VERSION:-1.9.0}
+    image: docker.io/exastro/exastro-platform-api:${PLATFORM_VERSION:-1.9.1}
     container_name: platform-api
     hostname: platform-api
     restart: always
@@ -354,7 +354,7 @@ services:
     logging: *logging
 
   platform-job:
-    image: docker.io/exastro/exastro-platform-job:${PLATFORM_VERSION:-1.9.0}
+    image: docker.io/exastro/exastro-platform-job:${PLATFORM_VERSION:-1.9.1}
     container_name: platform-job
     hostname: platform-job
     restart: always
@@ -411,7 +411,7 @@ services:
     logging: *logging
 
   platform-migration-1:
-    image: docker.io/exastro/exastro-platform-migration:${PLATFORM_VERSION:-1.9.0}
+    image: docker.io/exastro/exastro-platform-migration:${PLATFORM_VERSION:-1.9.1}
     container_name: platform-migration-1
     hostname: platform-migration-1
     command: python3 /app/initialize_db_main.py
@@ -468,7 +468,7 @@ services:
     logging: *logging
 
   platform-migration-2:
-    image: docker.io/exastro/exastro-platform-migration:${PLATFORM_VERSION:-1.9.0}
+    image: docker.io/exastro/exastro-platform-migration:${PLATFORM_VERSION:-1.9.1}
     container_name: platform-migration-2
     hostname: platform-migration-2
     command: python3 /app/migration_main.py
