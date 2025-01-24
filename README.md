@@ -1,8 +1,8 @@
-# Exastro IT Automation in Docker Compose  
-## 概要   
-Docker Compose を利用することで、Exastro IT Automation を簡単に起動することが可能です。  
-  - (based on [exastro-it-automation](https://github.com/exastro-suite/exastro-it-automation))  
-  - (based on [exastro-platform](https://github.com/exastro-suite/exastro-platform))  
+# Exastro IT Automation in Docker Compose
+## 概要
+Docker Compose を利用することで、Exastro IT Automation を簡単に起動することが可能です。
+  - (based on [exastro-it-automation](https://github.com/exastro-suite/exastro-it-automation))
+  - (based on [exastro-platform](https://github.com/exastro-suite/exastro-platform))
 
 ## 前提条件
 
@@ -48,7 +48,7 @@ sudo dnf -y install podman-docker
 podman version
 ```
 
-### （Podman利用時）Docker Compose のインストール 
+### （Podman利用時）Docker Compose のインストール
 
 [Install Compose standalone](https://docs.docker.com/compose/install/standalone/#on-linux) に従ってインストールをしてください。
 
@@ -60,7 +60,7 @@ docker-compose.yml などの起動に必要なファイル群を取得します�
 git clone https://github.com/exastro-suite/exastro-docker-compose.git
 ```
 
-以降は、*exastro-docker-compose* ディレクトリで作業をします。  
+以降は、*exastro-docker-compose* ディレクトリで作業をします。
 
 ```shell
 cd exastro-docker-compose
@@ -69,7 +69,7 @@ cd exastro-docker-compose
 環境変数のサンプルファイルからコピーします。
 
 ```shell
-cp .env.sample .env  # 値を変更することなく起動が可能ですが、変更を行いたい場合は .envファイルを編集してください。  
+cp .env.sample .env  # 値を変更することなく起動が可能ですが、変更を行いたい場合は .envファイルを編集してください。
 ```
 
 末尾の[パラメータ一覧](#パラメータ一覧)を参考に、起動に必要な環境情報を登録します。
@@ -89,14 +89,14 @@ head -c 32 /dev/urandom | base64
 
 ```shell
 # docker コマンドを利用する場合(Docker環境)
-docker compose --profile all up -d  --wait  
+docker compose --profile all up -d  --wait
 
 # docker-compose コマンドを利用する場合(Podman環境)
-docker-compose --profile all up -d  --wait  
-```  
+docker-compose --profile all up -d  --wait
+```
 
 ### （オプション）起動するコンテナを限定する場合の起動方法
-起動するコンテナを限定する場合は、プロファイル (*--profile*) で対象を指定することで、起動するコンテナを選択することが可能です。  
+起動するコンテナを限定する場合は、プロファイル (*--profile*) で対象を指定することで、起動するコンテナを選択することが可能です。
 
 | プロファイル名                 | 対象となるコンテナ                                 | スケーリング                 |
 | ------------------------------ | -------------------------------------------------- | ---------------------------- |
@@ -123,7 +123,7 @@ docker compose --profile base up -d  --wait
 
 # docker-compose コマンドを利用する場合(Podman環境)
 docker-compose --profile base up -d  --wait
-```  
+```
 
 ## Crontabの設定例
 exastro-suite/exastro-docker-composeを/home/test_user配下にgit cronしている前提で、
@@ -137,7 +137,7 @@ ita-by-file-autocleanを毎日00時01分、ita-by-file-autocleanを毎日00時02
 # docker-compose コマンドを利用する場合(Podman環境)
 01 00 * * * cd /home/test_user; /usr/bin/podman unshare docker-compose --profile batch run ita-by-file-autoclean > /dev/null 2>&1
 02 00 * * * cd /home/test_user; /usr/bin/podman unshare docker-compose --profile batch run ita-by-execinstance-dataautoclean > /dev/null 2>&1
-```  
+```
 
 ## Organization作成とアクセス
 
@@ -160,16 +160,16 @@ ita-by-file-autocleanを毎日00時01分、ita-by-file-autocleanを毎日00時02
 ### Organization 作成
 システム管理者用コンソールから作成可能です。
 
-### 各ページのURL  
-#### システム管理者用コンソール  
+### 各ページのURL
+#### システム管理者用コンソール
 http://exastro-mng.example.com:30081/
-  
-#### Organization ページ  
-http://exastro.example.com:30080/sample-org/platform/  
-  
-#### Gitlab  
-http://gitlab.example.com:40080  
-  
+
+#### Organization ページ
+http://exastro.example.com:30080/sample-org/platform/
+
+#### Gitlab
+http://gitlab.example.com:40080
+
 
 ## パラメータ一覧
 
@@ -217,7 +217,7 @@ http://gitlab.example.com:40080
 | CERTIFICATE_FILE  | Exastro Platform サーバー証明書のファイル名             | 可  | localhost.crt  |
 | PRIVATE_KEY_FILE  | Exastro Platform 秘密鍵のファイル名             | 可  | localhost.key  |
 | ENCRYPT_KEY                             | Exastro Platform 内で保管するデータの暗号化と復号のための AES キー          | **必須**                      | 'Q2hhbmdlTWUxMjM0NTY3ODkwMTIzNDU2Nzg5MDEyMzQ='                                                          |
-| PLATFORM_VERSION                        | Exastro Platform のバージョン                                               | 可                            | 1.9.0                                                                                                   |
+| PLATFORM_VERSION                        | Exastro Platform のバージョン                                               | 可                            | 1.9.1                                                                                                   |
 | PLATFORM_DB_VENDOR                      | Exastro Platform が利用するデータベースエンジン                             | 可 (外部のデータベース利用時) | **"mariadb"** (デフォルト): MariaDB を利用<br>**"mysql"**: MySQL を利用                                 |
 | PLATFORM_DB_HOST                        | Exastro Platform が利用するデータベースのホスト名                           | 可 (外部のデータベース利用時) | mariadb                                                                                                 |
 | PLATFORM_DB_PORT                        | Exastro Platform が利用するデータベースのポート番号                         | 可 (外部のデータベース利用時) | 3306                                                                                                    |
