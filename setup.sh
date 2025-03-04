@@ -792,11 +792,13 @@ installation_podman_on_rhel8() {
     podman unshare chown ${EXASTRO_UID}:${EXASTRO_GID} /run/user/${EXASTRO_UID}/podman/podman.sock
 
     DOCKER_HOST="unix:///run/user/${EXASTRO_UID}/podman/podman.sock"
+    export DOCKER_HOST=${DOCKER_HOST}
     if grep -q "^export DOCKER_HOST" ${HOME}/.bashrc; then
         sed -i -e "s|^export DOCKER_HOST.*|export DOCKER_HOST=${DOCKER_HOST}|" ${HOME}/.bashrc
     else
         echo "export DOCKER_HOST=${DOCKER_HOST}" >> ${HOME}/.bashrc
         echo "alias docker-compose='podman unshare docker-compose'" >> ${HOME}/.bashrc
+        alias docker-compose='podman unshare docker-compose'
     fi
 }
 
