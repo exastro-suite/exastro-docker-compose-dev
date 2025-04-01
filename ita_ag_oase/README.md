@@ -1,7 +1,7 @@
-# Exastro OASE Agent in Docker Compose  
-## 概要   
-Docker Compose を利用することで、Exastro OASE Agentを簡単に起動することが可能です。  
-  - (based on [exastro-it-automation](https://github.com/exastro-suite/exastro-it-automation))  
+# Exastro OASE Agent in Docker Compose
+## 概要
+Docker Compose を利用することで、Exastro OASE Agentを簡単に起動することが可能です。
+  - (based on [exastro-it-automation](https://github.com/exastro-suite/exastro-it-automation))
 
 ## 前提条件
 
@@ -52,7 +52,7 @@ sudo dnf -y install podman-docker
 podman version
 ```
 
-### （Podman利用時）Docker Compose のインストール 
+### （Podman利用時）Docker Compose のインストール
 
 [Install Compose standalone](https://docs.docker.com/compose/install/standalone/#on-linux) に従ってインストールをしてください。
 
@@ -64,7 +64,7 @@ docker-compose.yml などの起動に必要なファイル群を取得します�
 git clone https://github.com/exastro-suite/exastro-docker-compose.git
 ```
 
-以降は、*exastro-docker-compose/ita_ag_oase* ディレクトリで作業をします。  
+以降は、*exastro-docker-compose/ita_ag_oase* ディレクトリで作業をします。
 
 ```shell
 cd exastro-docker-compose/ita_ag_oase
@@ -97,11 +97,11 @@ cp .env.podman.sample .env
 
 ```shell
 # docker コマンドを利用する場合(Docker環境)
-docker compose up -d  --wait  
+docker compose up -d  --wait
 
 # docker-compose コマンドを利用する場合(Podman環境)
-docker-compose up -d  --wait  
-```  
+docker-compose up -d  --wait
+```
 
 
 ## パラメータ一覧
@@ -114,7 +114,7 @@ docker-compose up -d  --wait
 | TZ                                  | OASE エージェント システムで使用するタイムゾーン              | 可                     | Asia/Tokyo                     |
 | DEFAULT_LANGUAGE                    | OASE エージェント システムで使用する規定の言語     　         | 可                     | ja                             |
 | LANGUAGE                            | OASE エージェント システムで使用する言語                     | 可                     | en                             |
-| ITA_VERSION                         | OASE エージェント のバージョン                              | 可                     | 2.5.3                                     |
+| ITA_VERSION                         | OASE エージェント のバージョン                              | 可                     | 2.5.4                                     |
 | UID                                 | OASE エージェント の実行ユーザ                              | 不要                   | **1000** (デフォルト): Docker 利用の場合<br>**0**: Podman 利用の場合     |
 | HOST_DOCKER_GID                     | ホスト上の Docker のグループID                             | 不要                    | **999**: Docker 利用の場合<br>**0**: Podman 利用の場合           |
 | AGENT_NAME                          | 起動する OASEエージェントの名前                             | 可                     | ita-oase-agent-01                         |
