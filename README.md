@@ -23,6 +23,7 @@ Ansible Automation Platfrom と連携しない場合（GitLabを起動しない�
 | RHEL 9.4      | podman version 4.9.4-rhel | Docker Compose version v2.20.3 | -                  |
 | RHEL 8.9      | podman version 4.9.4-rhel | Docker Compose version v2.20.3 | -                  |
 | Almalinux 8.9 | -                         | -                              | Docker version 26.1.3 |
+| Almalinux 9.5 | -                         | -                              | Docker version 28.1.1 |
 
 
 ## 環境構築
