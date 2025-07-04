@@ -365,6 +365,12 @@ services:
       LANGUAGE: ${LANGUAGE:-en}
       ENCRYPT_KEY: ${ENCRYPT_KEY}
       PYTHONIOENCODING: utf-8
+      HTTP_PROXY: ${HTTP_PROXY}
+      http_proxy: ${HTTP_PROXY}
+      HTTPS_PROXY: ${HTTPS_PROXY}
+      https_proxy: ${HTTPS_PROXY}
+      NO_PROXY: localhost,127.0.0.1,keycloak,platform-api,${NO_PROXY}
+      no_proxy: localhost,127.0.0.1,keycloak,platform-api,${NO_PROXY}
       DB_VENDOR: ${PLATFORM_DB_VENDOR:-mariadb}
       DB_HOST: ${PLATFORM_DB_HOST:-mariadb}
       DB_PORT: ${PLATFORM_DB_PORT:-3306}
