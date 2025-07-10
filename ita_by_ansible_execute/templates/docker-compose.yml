@@ -17,7 +17,7 @@ services:
         https_proxy: "${https_proxy}"
         HTTP_PROXY: "${HTTP_PROXY}"
         HTTPS_PROXY: "${HTTPS_PROXY}"
-        PYTHONPATH: "/usr/local/lib/python3.9/site-packages:/home/app_user/.local/lib/python3.9/site-packages:$PYTHONPATH"
+        PYTHONPATH: "/usr/local/lib/python3.11/site-packages:/home/app_user/.local/lib/python3.11/site-packages:$PYTHONPATH"
     user: ${UID:-1000}:${HOST_DOCKER_GID:-1000}
     entrypoint:
       - "bash"
@@ -32,7 +32,7 @@ services:
         target: {{ container_mount_path_conductor }}
     environment:
       EXEC_DIR: {{ container_mount_path_driver }}
-      PYTHONPATH: "/usr/local/lib/python3.9/site-packages:/home/app_user/.local/lib/python3.9/site-packages:$PYTHONPATH"
+      PYTHONPATH: "/usr/local/lib/python3.11/site-packages:/home/app_user/.local/lib/python3.11/site-packages:$PYTHONPATH"
     networks:
       - exastro
 
