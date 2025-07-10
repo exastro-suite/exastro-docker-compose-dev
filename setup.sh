@@ -100,6 +100,9 @@ get_system_info() {
         if [ $(expr "${VERSION_ID}" : "^8\..*") != 0 ]; then
             DEP_PATTERN="AlmaLinux8"
         fi
+        if [ $(expr "${VERSION_ID}" : "^9\..*") != 0 ]; then
+            DEP_PATTERN="AlmaLinux8"
+        fi
     elif [ "${OS_NAME}" = "Ubuntu" ]; then
         if [ $(expr "${VERSION_ID}" : "^20\..*") != 0 ]; then
             DEP_PATTERN="Ubuntu20"
@@ -289,7 +292,9 @@ _EOF_
 ### Banner
 banner(){
     # Get window width
+    set +e
     WIN_WIDTH=$(tput cols 2>/dev/null)
+    set -e
 
     if [ "${WIN_WIDTH}" = "" ] || [ "${WIN_WIDTH}" -lt 80 ]; then
         # Small banner
@@ -808,6 +813,7 @@ installation_docker_on_alamalinux8() {
     # sudo dnf update -y
 
     info "Add Docker repository"
+    sudo dnf install -y 'dnf-command(config-manager)'
     sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
 
     info "Install Docker and additional tools"
