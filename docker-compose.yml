@@ -768,6 +768,7 @@ services:
       GITLAB_ROOT_TOKEN: ${GITLAB_ROOT_TOKEN}
       PLATFORM_API_HOST: ${PLATFORM_API_HOST:-platform-api}
       PLATFORM_API_PORT: ${PLATFORM_API_PORT:-8000}
+      EXTERNAL_URL: ${EXASTRO_EXTERNAL_URL:?Exastro service URL is required.}
       CONTAINER_BASE: docker
       STORAGEPATH: /storage/
       HOST_STORAGEPATH: ${PWD}/.volumes/storage/
