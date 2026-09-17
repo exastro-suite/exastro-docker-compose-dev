@@ -104,11 +104,12 @@ docker-compose --profile all up -d  --wait
 | ------------------------------ | -------------------------------------------------- | ---------------------------- |
 | *all*                          | すべてのコンテナ(batchを除く)                      |                              |
 | *minimal*                      | Exastro IT Automation、Exastro Platform、Keycloak コンテナ(batchを除く) |                    |
-| *base*                         | Exastro IT Automation、Exastro Platform、Keycloak、MariaDB コンテナ(batchを除く)  |               |
+| *base*                         | Exastro IT Automation、Exastro Platform、Keycloak、MariaDB、Qdrant コンテナ(batchを除く)  |               |
 | *keycloak*                     | Keycloak コンテナ                                  | 不可 (対応予定)              |
 | *mariadb*                      | MariaDB コンテナ                                   | 不可 (対応予定)              |
 | *gitlab*                       | GitLab コンテナ                                    | 不可 (対応予定)              |
 | *mongo*                        | MongoDB コンテナ                                   | 不可 (対応予定)              |
+| *qdrant*                       | Qdrant コンテナ                                    | 不可 (対応予定)              |
 | *migration*                    | インストール・アップグレード用コンテナ             | 不可 (必ず同時に1つのみ起動) |
 | *web*                          | Web 系のコンテナ                                   | 可能                         |
 | *backyard*                     | Backyard 関連のコンテナ                            | 不可 (対応予定)              |
