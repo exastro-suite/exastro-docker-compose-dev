@@ -166,6 +166,8 @@ services:
 
   ita_qdrant:
     image: docker.io/exastro/qdrant:${ITA_VERSION:-2.10.0}
+    container_name: qdrant
+    hostname: qdrant
     networks:
       - exastro
     profiles:
