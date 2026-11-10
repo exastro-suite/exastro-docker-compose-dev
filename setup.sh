@@ -960,12 +960,12 @@ setup() {
         fi
 
         while true; do
-            read -r -p "Input the Exastro service URL: " url
             if $(echo "${DEP_PATTERN}" | grep -q "RHEL.*"); then
                 EXTERNAL_URL_PORT=30080
             else
                 EXTERNAL_URL_PORT=80
             fi
+            read -r -p "Input the Exastro service URL (e.g. https://ita.example.com:${EXTERNAL_URL_PORT}): " url
             if [ "${url}" = "" ]; then
                 echo "Exastro service URL is required."
                 echo ""
@@ -988,12 +988,12 @@ setup() {
         done
 
         while true; do
-            read -r -p "Input the Exastro management URL: " url
             if $(echo "${DEP_PATTERN}" | grep -q "RHEL.*"); then
                 EXTERNAL_URL_MNG_PORT=30081
             else
                 EXTERNAL_URL_MNG_PORT=81
             fi
+            read -r -p "Input the Exastro management URL (e.g. https://ita.example.com:${EXTERNAL_URL_MNG_PORT}): " url
             if [ "${url}" = "" ]; then
                 echo "Exastro management service URL is required."
                 echo ""
@@ -1242,9 +1242,7 @@ generate_env() {
     # changed the delimiter (/ to |) because the environment variable is URL(http(s)://xxxx:xx).
     sed -i -e "s|^EXASTRO_EXTERNAL_URL=.*|EXASTRO_EXTERNAL_URL=${EXASTRO_EXTERNAL_URL}|" ${ENV_FILE}
     sed -i -e "s|^EXASTRO_MNG_EXTERNAL_URL=.*|EXASTRO_MNG_EXTERNAL_URL=${EXASTRO_MNG_EXTERNAL_URL}|" ${ENV_FILE}
-    if "${is_use_ssl}"; then
-        sed -i -e "/^# EXASTRO_HTTPS=.*/a EXASTRO_HTTPS=${is_use_ssl}" ${ENV_FILE}
-    fi
+    sed -i -e "/^# EXASTRO_HTTPS=.*/a EXASTRO_HTTPS=${is_use_ssl}" ${ENV_FILE}
     if "${is_copy_ssl_certificates}"; then
         sed -i -e "/^# CERTIFICATE_FILE=.*/a CERTIFICATE_FILE=${CERTIFICATE_FILE}" ${ENV_FILE}
         sed -i -e "/^# PRIVATE_KEY_FILE=.*/a PRIVATE_KEY_FILE=${PRIVATE_KEY_FILE}" ${ENV_FILE}
