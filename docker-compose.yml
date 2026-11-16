@@ -48,7 +48,7 @@ services:
     logging: *logging
 
   gitlab:
-    image: docker.io/gitlab/gitlab-ce:${GITLAB_VERSION:-19.5.1-ce.0}
+    image: docker.io/gitlab/gitlab-ce:${GITLAB_VERSION:-19.5.5-ce.0}
     container_name: gitlab
     hostname: gitlab
     restart: always
