@@ -128,3 +128,5 @@ docker-compose up -d  --wait
 | ITERATION                           | OASE エージェント が設定を初期化するまでの、処理の繰り返し数   | 可                     | 10（上限値: 120, 下限値: 10）                               |
 | EXECUTE_INTERVAL                    | OASE エージェント のデータ収集処理の実行間隔                  | 可                    | 5（下限値: 3）                                  |
 | LOG_LEVEL                           | OASE エージェント のログレベル                              | 可                     | INFO                                           |
+| EVENT_COLLECTION_SSL_VERIFY_ENABLED | イベント収集先との通信で SSL 証明書を検証するか | 可 | "FALSE" (デフォルト): 検証しない<br>"TRUE": 検証する |
+| AGENT_SSL_VERIFY_ENABLED            | Exastro IT Automation との通信で SSL 証明書を検証するか | 可 | "FALSE" (デフォルト): 検証しない<br>"TRUE": 検証する |

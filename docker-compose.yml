@@ -423,6 +423,7 @@ services:
       # JOB_NOTIFICATION_TEAMS_READ_TIMEOUT: ${JOB_NOTIFICATION_TEAMS_READ_TIMEOUT:-10.0}
       # JOB_NOTIFICATION_SMTP_TIMEOUT: ${JOB_NOTIFICATION_SMTP_TIMEOUT:10.0}
       # JOB_NOTIFICATION_SMTPS_SSL_VERIFY_ENABLED: ${JOB_NOTIFICATION_SMTPS_SSL_VERIFY_ENABLED:-TRUE}
+      # JOB_NOTIFICATION_STARTTLS_SSL_VERIFY_ENABLED: ${JOB_NOTIFICATION_STARTTLS_SSL_VERIFY_ENABLED:-FALSE}
       # JOB_USER_IMPORT_TIMEOUT_SECONDS: ${JOB_USER_IMPORT_TIMEOUT_SECONDS:-3600}
       # JOB_USER_IMPORT_MAX_JOB_PER_PROCESS: ${JOB_USER_IMPORT_MAX_JOB_PER_PROCESS:-2}
       # JOB_USER_IMPORT_MAX_ROWS_ALLOWD: ${JOB_USER_IMPORT_MAX_ROWS_ALLOWD:-20000}
@@ -591,6 +592,9 @@ services:
       CONTAINER_BASE: docker
       STORAGEPATH: /storage/
       LISTEN_PORT: 8080
+      # ANSIBLE_AAP_SSL_VERIFY_ENABLED: ${ANSIBLE_AAP_SSL_VERIFY_ENABLED:-FALSE}
+      # TERRAFORM_SSL_VERIFY_ENABLED: ${TERRAFORM_SSL_VERIFY_ENABLED:-FALSE}
+      # CONDUCTOR_NOTICE_SSL_VERIFY_ENABLED: ${CONDUCTOR_NOTICE_SSL_VERIFY_ENABLED:-FALSE}
     volumes:
       - vol-ita-storage:/storage
     networks:
@@ -846,6 +850,7 @@ services:
       NO_PROXY: localhost,127.0.0.1,ita-api-organization,ita-api-admin,ita-web-server,platform-api,platform-auth,gitlab,${NO_PROXY}
       no_proxy: localhost,127.0.0.1,ita-api-organization,ita-api-admin,ita-web-server,platform-api,platform-auth,gitlab,${NO_PROXY}
       NETWORK_ID: ${NETWORK_ID}
+      # ANSIBLE_AAP_SSL_VERIFY_ENABLED: ${ANSIBLE_AAP_SSL_VERIFY_ENABLED:-FALSE}
     volumes:
       - ${HOST_DOCKER_SOCKET_PATH:-/var/run/docker.sock}:/var/run/docker.sock:cached
       - ./ita_by_ansible_execute/templates:/exastro/templates
@@ -1004,6 +1009,7 @@ services:
       DB_ADMIN_PASSWORD: ${ITA_DB_ADMIN_PASSWORD}
       DB_USER: ${ITA_DB_USER:-ITA_USER}
       DB_PASSWORD: ${ITA_DB_PASSWORD}
+      # ANSIBLE_AAP_SSL_VERIFY_ENABLED: ${ANSIBLE_AAP_SSL_VERIFY_ENABLED:-FALSE}
     volumes:
       - vol-ita-storage:/storage
     networks:
@@ -1082,6 +1088,9 @@ services:
       DB_ADMIN_PASSWORD: ${ITA_DB_ADMIN_PASSWORD}
       DB_USER: ${ITA_DB_USER:-ITA_USER}
       DB_PASSWORD: ${ITA_DB_PASSWORD}
+      # ANSIBLE_AAP_SSL_VERIFY_ENABLED: ${ANSIBLE_AAP_SSL_VERIFY_ENABLED:-FALSE}
+      # TERRAFORM_SSL_VERIFY_ENABLED: ${TERRAFORM_SSL_VERIFY_ENABLED:-FALSE}
+      # CONDUCTOR_NOTICE_SSL_VERIFY_ENABLED: ${CONDUCTOR_NOTICE_SSL_VERIFY_ENABLED:-FALSE}
     volumes:
       - vol-ita-storage:/storage
     networks:
@@ -1238,6 +1247,7 @@ services:
       DB_ADMIN_PASSWORD: ${ITA_DB_ADMIN_PASSWORD}
       DB_USER: ${ITA_DB_USER:-ITA_USER}
       DB_PASSWORD: ${ITA_DB_PASSWORD}
+      # TERRAFORM_SSL_VERIFY_ENABLED: ${TERRAFORM_SSL_VERIFY_ENABLED:-FALSE}
     volumes:
       - vol-ita-storage:/storage
     networks:
@@ -1277,6 +1287,7 @@ services:
       DB_ADMIN_PASSWORD: ${ITA_DB_ADMIN_PASSWORD}
       DB_USER: ${ITA_DB_USER:-ITA_USER}
       DB_PASSWORD: ${ITA_DB_PASSWORD}
+      # TERRAFORM_SSL_VERIFY_ENABLED: ${TERRAFORM_SSL_VERIFY_ENABLED:-FALSE}
     volumes:
       - vol-ita-storage:/storage
     networks:
