@@ -33,6 +33,7 @@ MONGO_ADMIN_PASSWORD=Ch@ngeMeDBAdm
 
 is_use_oase=true
 is_use_gitlab_container=false
+is_use_ansible_core=true
 EXASTRO_EXTERNAL_URL='Exastro service URL is required.'
 EXASTRO_MNG_EXTERNAL_URL='EXASTRO_MNG_EXTERNAL_URL is required.'
 is_set_gitlab_external_url=false
@@ -884,6 +885,13 @@ setup() {
         fi
     fi
 
+    # Default answer of the Ansible-Core question (keep the current setting in .env)
+    if [ "${HOST_DOCKER_SOCKET_PATH:-}" = "/dev/null" ]; then
+        ansible_core_default=n
+    else
+        ansible_core_default=y
+    fi
+
     while true; do
         COMPOSE_PROFILES=base
 
@@ -1171,6 +1179,38 @@ setup() {
 
         cat <<_EOF_
 
+[Ansible-Core]
+  y: The host's container engine socket is mounted into ita-by-ansible-execute.
+     This is required to run Ansible-Core executions.
+  n: The socket is not mounted.
+     Ansible-Core executions do not work.
+     Choose this only if you do not use Ansible-Core.
+
+_EOF_
+        if [ "${ansible_core_default}" = "n" ]; then
+            read -r -p "Use Ansible-Core? (y/n) [default: n]: " confirm
+            echo ""
+            if echo $confirm | grep -q -e "[yY]" -e "[yY][eE][sS]"; then
+                is_use_ansible_core=true
+            else
+                is_use_ansible_core=false
+            fi
+        else
+            read -r -p "Use Ansible-Core? (y/n) [default: y]: " confirm
+            echo ""
+            if echo $confirm | grep -q -e "[nN]" -e "[nN][oO]"; then
+                is_use_ansible_core=false
+            else
+                is_use_ansible_core=true
+            fi
+        fi
+        # Do not mount the socket when ansible-core is not used
+        if ! "${is_use_ansible_core}"; then
+            HOST_DOCKER_SOCKET_PATH="/dev/null"
+        fi
+
+        cat <<_EOF_
+
 
 The system parameters are as follows.
 
@@ -1182,6 +1222,7 @@ Service URL:                      ${EXASTRO_EXTERNAL_URL}
 Manegement URL:                   ${EXASTRO_MNG_EXTERNAL_URL}
 Docker GID:                       ${HOST_DOCKER_GID}
 Docker Socket path:               ${HOST_DOCKER_SOCKET_PATH}
+Ansible-Core:                     $(if "${is_use_ansible_core}"; then echo "Yes"; else echo "No"; fi)
 GitLab deployment:                $(if [ ${COMPOSE_PROFILES} = "all" ] || "${is_use_gitlab_container}"; then echo "Yes"; else echo "No"; fi)
 _EOF_
         if [ ${COMPOSE_PROFILES} = "all" ] || "${is_use_gitlab_container}"; then
@@ -1206,6 +1247,7 @@ _EOF_
             info "Manegement URL:                   ${EXASTRO_MNG_EXTERNAL_URL}"
             info "Docker GID:                       ${HOST_DOCKER_GID}"
             info "Docker Socket path:               ${HOST_DOCKER_SOCKET_PATH}"
+            info "Ansible-Core:                     $(if "${is_use_ansible_core}"; then echo "Yes"; else echo "No"; fi)"
             if [ ${COMPOSE_PROFILES} = "all" ] || "${is_use_gitlab_container}"; then
                 info "GitLab URL:                       ${GITLAB_EXTERNAL_URL}"
                 info "GitLab root password:             ********"
@@ -1251,6 +1293,10 @@ generate_env() {
         sed -i -e "s|^HOST_DOCKER_SOCKET_PATH=.*|HOST_DOCKER_SOCKET_PATH=${HOST_DOCKER_SOCKET_PATH}|" ${ENV_FILE}
     else
         sed -i -e "s/^HOST_DOCKER_GID=.*/HOST_DOCKER_GID=${HOST_DOCKER_GID}/" ${ENV_FILE}
+        # Do not mount the socket when ansible-core is not used
+        if ! "${is_use_ansible_core}"; then
+            sed -i -e "/^# HOST_DOCKER_SOCKET_PATH=.*/a HOST_DOCKER_SOCKET_PATH=${HOST_DOCKER_SOCKET_PATH}" ${ENV_FILE}
+        fi
     fi
     sed -i -e "s/^COMPOSE_PROFILES=.*/COMPOSE_PROFILES=${COMPOSE_PROFILES}/" ${ENV_FILE}
     sed -i -e "s/^GITLAB_ROOT_PASSWORD=.*/GITLAB_ROOT_PASSWORD=${GITLAB_ROOT_PASSWORD}/" ${ENV_FILE}
