@@ -114,7 +114,7 @@ docker-compose up -d  --wait
 | TZ                                  | OASE エージェント システムで使用するタイムゾーン              | 可                     | Asia/Tokyo                     |
 | DEFAULT_LANGUAGE                    | OASE エージェント システムで使用する規定の言語     　         | 可                     | ja                             |
 | LANGUAGE                            | OASE エージェント システムで使用する言語                     | 可                     | en                             |
-| ITA_VERSION                         | OASE エージェント のバージョン                              | 可                     | 2.9.0                                     |
+| ITA_VERSION                         | OASE エージェント のバージョン                              | 可                     | 2.10.1                                     |
 | UID                                 | OASE エージェント の実行ユーザ                              | 不要                   | **1000** (デフォルト): Docker 利用の場合<br>**0**: Podman 利用の場合     |
 | HOST_DOCKER_GID                     | ホスト上の Docker のグループID                             | 不要                    | **999**: Docker 利用の場合<br>**0**: Podman 利用の場合           |
 | AGENT_NAME                          | 起動する OASEエージェントの名前                             | 可                     | ita-oase-agent-01                         |
@@ -128,3 +128,5 @@ docker-compose up -d  --wait
 | ITERATION                           | OASE エージェント が設定を初期化するまでの、処理の繰り返し数   | 可                     | 10（上限値: 120, 下限値: 10）                               |
 | EXECUTE_INTERVAL                    | OASE エージェント のデータ収集処理の実行間隔                  | 可                    | 5（下限値: 3）                                  |
 | LOG_LEVEL                           | OASE エージェント のログレベル                              | 可                     | INFO                                           |
+| EVENT_COLLECTION_SSL_VERIFY_ENABLED | イベント収集先との通信で SSL 証明書を検証するか | 可 | "FALSE" (デフォルト): 検証しない<br>"TRUE": 検証する |
+| AGENT_SSL_VERIFY_ENABLED            | Exastro IT Automation との通信で SSL 証明書を検証するか | 可 | "FALSE" (デフォルト): 検証しない<br>"TRUE": 検証する |
