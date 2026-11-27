@@ -963,7 +963,7 @@ setup() {
             if $(echo "${DEP_PATTERN}" | grep -q "RHEL.*"); then
                 EXTERNAL_URL_PORT=30080
             else
-                EXTERNAL_URL_PORT=80
+                EXTERNAL_URL_PORT=443
             fi
             read -r -p "Input the Exastro service URL (e.g. https://ita.example.com:${EXTERNAL_URL_PORT}): " url
             if [ "${url}" = "" ]; then
@@ -991,7 +991,7 @@ setup() {
             if $(echo "${DEP_PATTERN}" | grep -q "RHEL.*"); then
                 EXTERNAL_URL_MNG_PORT=30081
             else
-                EXTERNAL_URL_MNG_PORT=81
+                EXTERNAL_URL_MNG_PORT=8443
             fi
             read -r -p "Input the Exastro management URL (e.g. https://ita.example.com:${EXTERNAL_URL_MNG_PORT}): " url
             if [ "${url}" = "" ]; then
